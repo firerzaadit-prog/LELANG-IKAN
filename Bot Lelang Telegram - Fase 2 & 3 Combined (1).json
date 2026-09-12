@@ -2080,7 +2080,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -3470,7 +3470,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -3596,7 +3596,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -4088,7 +4088,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -4489,7 +4489,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -5563,7 +5563,7 @@
             {
               "id": "a1000000-0000-0000-0000-000000000001",
               "name": "apikey",
-              "value": "***REMOVED-SECRET***",
+              "value": "={{ $env.WA_API_KEY }}",
               "type": "string"
             }
           ]
@@ -6888,7 +6888,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -6937,7 +6937,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -7107,7 +7107,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -7313,7 +7313,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -7436,7 +7436,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -7511,7 +7511,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "idgroup",
@@ -7667,7 +7667,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -8291,7 +8291,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             },
             {
               "name": "mtype",
@@ -8525,7 +8525,7 @@
           "parameters": [
             {
               "name": "apikey",
-              "value": "=***REMOVED-SECRET***"
+              "value": "={{ $env.WA_API_KEY }}"
             }
           ]
         },
