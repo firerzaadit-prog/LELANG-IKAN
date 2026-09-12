@@ -64,6 +64,18 @@ Isinya mencakup struktur database, daftar lengkap command WhatsApp, dan penjelas
 
 ---
 
-## 🔐 Catatan Keamanan
+## 🔐 Setup Kredensial
 
-Workflow ini terhubung ke kredensial pihak ketiga (Google Sheets, WhatsApp Gateway). **Jangan pernah meng-commit API key atau kredensial asli** ke repository publik ini — gunakan environment variable atau credential store n8n untuk itu.
+Workflow ini **tidak menyimpan API key apapun di dalam file** — semua node yang perlu memanggil WhatsApp Gateway membaca key-nya lewat environment variable `WA_API_KEY`, dan koneksi Google Sheets memakai OAuth credential n8n (bukan tertulis di file).
+
+Setelah meng-import file `.json` ini ke instance n8n kamu:
+
+1. Buka **Settings → Environment Variables** di n8n (self-hosted) atau pengaturan variabel di hosting n8n kamu, lalu tambahkan:
+   ```
+   WA_API_KEY = <apikey WhatsApp Gateway kamu>
+   ```
+2. Buka node **Google Sheets** manapun di workflow, lalu pasang ulang credential Google OAuth-nya (credential lama tidak ikut ter-export, ini demi keamanan).
+
+Setelah dua langkah itu, workflow langsung berfungsi normal — dan tetap aman untuk terus di-edit, di-export ulang, lalu di-push ke repo publik ini kapan saja, karena key tidak pernah ikut tersimpan di file.
+
+⚠️ Kalau kamu pernah meng-clone/download versi file ini **sebelum** perbaikan ini, API key lama yang sempat tertulis di situ harus dianggap bocor — segera regenerate key baru di dashboard WhatsApp Gateway kamu.
