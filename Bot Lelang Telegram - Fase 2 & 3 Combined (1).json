@@ -52,7 +52,7 @@
                   {
                     "id": "dfea13cc-e531-4ad9-bffc-95343c93ac57",
                     "leftValue": "={{ $json.text_upper }}",
-                    "rightValue": "^(ALL\\s+(OB|KB)|[0-9]+(,[0-9]+)*\\s+(OB|KB)(\\s+[0-9]+)?|[0-9]+(,[0-9]+)*\\s+[0-9]+)$",
+                    "rightValue": "^(ALL\\s+(OB|KB)|(OB|KB)[\\s,]+ALL|[0-9]+(,[0-9]+)*\\s+(OB|KB)(\\s+[0-9]+)?|(OB|KB)[\\s,]+[0-9]+(,[0-9]+)*(\\s+[0-9]+)?|[0-9]+(,[0-9]+)*\\s+[0-9]+)$",
                     "operator": {
                       "type": "string",
                       "operation": "regex"
@@ -4900,7 +4900,7 @@
             },
             {
               "name": "text",
-              "value": "=PANDUAN TEKNIS AUTO-BID\nHi, {{ $('Normalize Pesan').first().json.sender_name }}\nLelang berlangsung di Group WA {{ $('Webhook').first().json.body.groupName || 'ini' }}\n\nPertanyaan chat admin di wa.me/{{ String($json[\"Admin IDs\"]).split(',')[0] }}\n\nKode Ikan 1 2 3 4 dan seterusnya\n- Bid per ikan :\n1 OB → buka bid ikan nomor 1 (HANYA SEKALI di awal)\n1 KB → naikkan bid ikan nomor 1 sesuai kelipatan (dipakai setelah OB)\n1 500 (Jumping BID 500K)\n1 KB 100 (BID terakhir + 100K)\n- untuk BID beberapa ikan diberi penambahan koma (,)  :\n1,2,3 OB\n1,2 KB\n1,2 500 (Jumping BID 500K)\n1,2 KB 100 (BID terakhir + 100K)\n- BID semua ikan :\nALL OB\nALL KB\n- Catatan: OB hanya untuk MEMBUKA bid ikan tsb. Setelah ada 1 bid masuk, OB tidak berlaku lagi dan wajib pakai KB.\n\nLihat Foto/Video/Sertifikat Ikan :\n- Ketik \"LINK & NOMOR IKAN\" contoh LINK 1\n- Ketik \"FOTO & NOMOR IKAN\" contoh FOTO 1\n- Ketik \"VIDEO & NOMOR IKAN \" contoh VIDEO 1\n- Ketik \"SERTIFIKAT & NOMOR IKAN\" contoh SERTIFIKAT 1\n\nBID direkap secara otomatis\n- Lihat rekap semua ikan ketik \"REKAP\"\n- Lihat history bid 1 ikan ketik \"REKAP <nomor>\" atau \"<nomor> REKAP\", contoh REKAP 1 atau 1 REKAP"
+              "value": "=PANDUAN TEKNIS AUTO-BID\nHi, {{ $('Normalize Pesan').first().json.sender_name }}\nLelang berlangsung di Group WA {{ $('Webhook').first().json.body.groupName || 'ini' }}\n\nPertanyaan chat admin di wa.me/{{ String($json[\"Admin IDs\"]).split(',')[0] }}\n\nKode Ikan 1 2 3 4 dan seterusnya\n- Bid per ikan :\n1 OB / OB 1 → buka bid ikan nomor 1 (HANYA SEKALI di awal)\n1 KB / KB 1 → naikkan bid ikan nomor 1 sesuai kelipatan (dipakai setelah OB)\n1 500 (Jumping BID 500K)\n1 KB 100 / KB 1 100 (BID terakhir + 100K)\n- untuk BID beberapa ikan diberi penambahan koma (,)  :\n1,2,3 OB / OB 1,2,3\n1,2 KB / KB 1,2\n1,2 500 (Jumping BID 500K)\n1,2 KB 100 / KB 1,2 100 (BID terakhir + 100K)\n- BID semua ikan :\nALL OB / OB ALL\nALL KB / KB ALL\n- Catatan: OB hanya untuk MEMBUKA bid ikan tsb. Setelah ada 1 bid masuk, OB tidak berlaku lagi dan wajib pakai KB.\n\nLihat Foto/Video/Sertifikat Ikan :\n- Ketik \"LINK & NOMOR IKAN\" contoh LINK 1\n- Ketik \"FOTO & NOMOR IKAN\" contoh FOTO 1\n- Ketik \"VIDEO & NOMOR IKAN \" contoh VIDEO 1\n- Ketik \"SERTIFIKAT & NOMOR IKAN\" contoh SERTIFIKAT 1\n\nBID direkap secara otomatis\n- Lihat rekap semua ikan ketik \"REKAP\"\n- Lihat history bid 1 ikan ketik \"REKAP <nomor>\" atau \"<nomor> REKAP\", contoh REKAP 1 atau 1 REKAP"
             }
           ]
         },
@@ -6042,7 +6042,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const item = $input.item.json;\nconst text = item.text_upper;\nconst parts = text.split(/\\s+/);\nconst firstPart = parts[0];\n\nlet daftarKode = [];\nlet tipe_bid = '';\nlet nominal_custom = null;\n\nif (firstPart === 'BIN') {\n  const sisa = text.replace(/^BIN\\s+/, '');\n  daftarKode = sisa.split(',').map(k => k.trim()).filter(k => k.length > 0);\n  tipe_bid = 'BIN';\n} else if (firstPart === 'ALL') {\n  daftarKode = ['ALL'];\n  const tipeRaw = parts[1];\n  if (tipeRaw === 'OB' || tipeRaw === 'KB') {\n    tipe_bid = tipeRaw;\n  } else {\n    tipe_bid = 'NOMINAL';\n    nominal_custom = parseInt(tipeRaw) || 0;\n  }\n} else {\n  daftarKode = firstPart.split(',').map(k => k.trim()).filter(k => k.length > 0);\n  const tipeRaw = parts[1];\n  const extra = parts[2] || null;\n  if (tipeRaw === 'OB' || tipeRaw === 'KB') {\n    tipe_bid = tipeRaw;\n    nominal_custom = extra ? parseInt(extra) : null;\n  } else {\n    tipe_bid = 'NOMINAL';\n    nominal_custom = parseInt(tipeRaw) || 0;\n  }\n}\n\nreturn {\n  daftar_kode: daftarKode,\n  tipe_bid,\n  nominal_custom,\n  keyword_asli: item.text_original,\n  penawar_id: item.sender_id,\n  penawar_nama: item.sender_name,\n  chat_id: item.chat_id\n};"
+        "jsCode": "const item = $input.item.json;\nlet text = item.text_upper;\n\n// Normalisasi: kalau ada koma langsung setelah OB/KB tanpa spasi (mis. \"OB,1,2,3\"),\n// ubah jadi spasi supaya diproses sama seperti \"OB 1,2,3\"\ntext = text.replace(/^(OB|KB)\\s*,\\s*/, '$1 ');\n\nconst parts = text.split(/\\s+/);\nconst firstPart = parts[0];\n\nlet daftarKode = [];\nlet tipe_bid = '';\nlet nominal_custom = null;\n\nif (firstPart === 'BIN') {\n  const sisa = text.replace(/^BIN\\s+/, '');\n  daftarKode = sisa.split(',').map(k => k.trim()).filter(k => k.length > 0);\n  tipe_bid = 'BIN';\n} else if (firstPart === 'OB' || firstPart === 'KB') {\n  // Format command-first: \"OB 1\", \"KB 1,2,3\", \"KB 1 100\", \"OB ALL\", \"KB ALL\"\n  tipe_bid = firstPart;\n  const sisa = parts.slice(1);\n  if (sisa[0] === 'ALL') {\n    daftarKode = ['ALL'];\n    nominal_custom = sisa[1] ? parseInt(sisa[1]) : null;\n  } else {\n    daftarKode = (sisa[0] || '').split(',').map(k => k.trim()).filter(k => k.length > 0);\n    nominal_custom = sisa[1] ? parseInt(sisa[1]) : null;\n  }\n} else if (firstPart === 'ALL') {\n  daftarKode = ['ALL'];\n  const tipeRaw = parts[1];\n  if (tipeRaw === 'OB' || tipeRaw === 'KB') {\n    tipe_bid = tipeRaw;\n  } else {\n    tipe_bid = 'NOMINAL';\n    nominal_custom = parseInt(tipeRaw) || 0;\n  }\n} else {\n  daftarKode = firstPart.split(',').map(k => k.trim()).filter(k => k.length > 0);\n  const tipeRaw = parts[1];\n  const extra = parts[2] || null;\n  if (tipeRaw === 'OB' || tipeRaw === 'KB') {\n    tipe_bid = tipeRaw;\n    nominal_custom = extra ? parseInt(extra) : null;\n  } else {\n    tipe_bid = 'NOMINAL';\n    nominal_custom = parseInt(tipeRaw) || 0;\n  }\n}\n\nreturn {\n  daftar_kode: daftarKode,\n  tipe_bid,\n  nominal_custom,\n  keyword_asli: item.text_original,\n  penawar_id: item.sender_id,\n  penawar_nama: item.sender_name,\n  chat_id: item.chat_id\n};"
       },
       "id": "e6500e3d-3325-4517-b42f-85efa9cda505",
       "name": "Parser Bid",
@@ -6679,7 +6679,7 @@
             },
             {
               "name": "text",
-              "value": "=⚠️ Format tidak dikenali: \"{{ $json.text_original }}\"\n\nFormat penawaran yang benar:\n• *1 OB* → buka bid ikan nomor 1 di harga awal (hanya sekali di awal)\n• *1 KB* → naikkan bid ikan nomor 1 sesuai kelipatan\n• *1 500* → jumping bid ikan nomor 1 ke nominal 500rb\n• *1 KB 100* → naikkan bid ikan nomor 1 + 100rb dari bid terakhir\n• *1,2,3 OB* / *1,2 KB* → bid beberapa ikan sekaligus\n• *ALL OB* / *ALL KB* → bid semua ikan\n• *BIN 1* → beli langsung ikan nomor 1\n\nSilakan ketik ulang dengan format yang benar ya 🙏"
+              "value": "=⚠️ Format tidak dikenali: \"{{ $json.text_original }}\"\n\nFormat penawaran yang benar:\n• *1 OB* / *OB 1* → buka bid ikan nomor 1 di harga awal (hanya sekali di awal)\n• *1 KB* / *KB 1* → naikkan bid ikan nomor 1 sesuai kelipatan\n• *1 500* → jumping bid ikan nomor 1 ke nominal 500rb\n• *1 KB 100* / *KB 1 100* → naikkan bid ikan nomor 1 + 100rb dari bid terakhir\n• *1,2,3 OB* / *OB 1,2,3* / *1,2 KB* / *KB 1,2* → bid beberapa ikan sekaligus\n• *ALL OB* / *OB ALL* / *ALL KB* / *KB ALL* → bid semua ikan\n• *BIN 1* → beli langsung ikan nomor 1\n\nSilakan ketik ulang dengan format yang benar ya 🙏"
             }
           ]
         },
@@ -7567,7 +7567,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const grupId = $('Ambil Grup Aktif untuk Cek Member').item.json.grup_id;\nconst resp = $('Fetch Anggota Grup').item.json;\n\n// Kalau panggilan API-nya gagal/kena limit (resp.status === false), JANGAN lanjut --\n// batalkan diam-diam supaya tracking anggota yang sudah ada tidak ketimpa data kosong.\nif (resp?.status === false) return [];\n\n// Bentuk respons Fetch Member: { status, message, total_participants, data: [{ id: \"<nomor>@lid\", number, admin }] }\nlet anggotaMentah = [];\nconst kandidat = [resp?.data, resp?.participants, resp?.members, resp?.result, Array.isArray(resp) ? resp : null];\nfor (const k of kandidat) {\n  if (Array.isArray(k)) { anggotaMentah = k; break; }\n}\n\nconst nomorSekarang = anggotaMentah.map(m => {\n  if (typeof m === 'string') return m.split('@')[0];\n  if (m && typeof m === 'object') {\n    const v = m.id || m.number || m.jid || m.wa_id || m.phone || '';\n    return String(v).split('@')[0];\n  }\n  return '';\n}).filter(Boolean);\n\nconst nomorUnikSekarang = [...new Set(nomorSekarang)];\n\nconst trackingRows = $input.all().map(i => i.json);\nconst trackingRow = trackingRows.find(r => String(r['Grup ID']).trim() === String(grupId).trim());\nconst nomorDiketahui = trackingRow\n  ? String(trackingRow['Anggota Diketahui'] || '').split(',').map(s => s.trim()).filter(Boolean)\n  : [];\n\nconst isPertamaKali = !trackingRow || nomorDiketahui.length === 0;\nconst anggotaBaru = isPertamaKali ? [] : nomorUnikSekarang.filter(n => !nomorDiketahui.includes(n));\n\nreturn {\n  grup_id: grupId,\n  anggota_baru: anggotaBaru,\n  ada_member_baru: anggotaBaru.length > 0,\n  anggota_lengkap_csv: nomorUnikSekarang.join(',')\n};"
+        "jsCode": "// PENTING soal mode eksekusi node ini:\n// Kalau ada LEBIH DARI 1 grup WA aktif bersamaan, node \"Baca Tracking Anggota Grup\" akan\n// jalan sekali per grup dan tiap kali membaca ULANG seluruh sheet \"Anggota Grup\" -- jadi\n// $input.all() di sini bisa berisi baris yang terduplikasi per grup. Kode di bawah SENGAJA\n// tidak memakai `.item` (yang cuma valid dalam mode \"Run Once for Each Item\") dan tidak\n// mengandalkan urutan/posisi item, supaya tetap benar walau datanya terduplikasi begitu.\nconst grupItems = $('Ambil Grup Aktif untuk Cek Member').all();\nconst fetchItems = $('Fetch Anggota Grup').all();\nconst trackingRows = $input.all().map(i => i.json);\n\nconst hasil = [];\n\nfor (let i = 0; i < grupItems.length; i++) {\n  const grupId = grupItems[i].json.grup_id;\n  const resp = fetchItems[i] ? fetchItems[i].json : null;\n\n  // Kalau panggilan API-nya gagal/kena limit (resp.status === false) atau tidak ada respons,\n  // JANGAN lanjut -- batalkan diam-diam supaya jumlah anggota yang sudah tercatat tidak\n  // ketimpa data kosong/salah.\n  if (!resp || resp.status === false) continue;\n\n  // Bentuk respons Fetch Member: { status, message, total_participants, data: [...] }\n  let anggotaMentah = [];\n  const kandidat = [resp.data, resp.participants, resp.members, resp.result, Array.isArray(resp) ? resp : null];\n  for (const k of kandidat) {\n    if (Array.isArray(k)) { anggotaMentah = k; break; }\n  }\n\n  // Utamakan total_participants dari API (paling akurat); fallback ke panjang array data.\n  const totalDariApi = parseInt(resp.total_participants, 10);\n  const jumlahSekarang = Number.isFinite(totalDariApi) && totalDariApi > 0\n    ? totalDariApi\n    : anggotaMentah.length;\n\n  // Respons tidak lengkap/kosong -- jangan proses, biar tracking lama tidak ketimpa 0.\n  if (!jumlahSekarang) continue;\n\n  const trackingRow = trackingRows.find(r => String(r['Grup ID']).trim() === String(grupId).trim());\n  const jumlahSebelumnya = trackingRow ? (parseInt(trackingRow['Anggota Diketahui'], 10) || 0) : 0;\n\n  // Baseline pertama kali (grup belum pernah tercatat) -- simpan jumlah awal, jangan kirim notif.\n  const isPertamaKali = !trackingRow || jumlahSebelumnya === 0;\n  const selisih = jumlahSekarang - jumlahSebelumnya;\n  const memberBaruCount = (!isPertamaKali && selisih > 0) ? selisih : 0;\n\n  hasil.push({\n    json: {\n      grup_id: grupId,\n      jumlah_sekarang: jumlahSekarang,\n      jumlah_sebelumnya: jumlahSebelumnya,\n      member_baru_count: memberBaruCount,\n      ada_member_baru: memberBaruCount > 0\n    }\n  });\n}\n\nreturn hasil;"
       },
       "id": "6dc22fd9-2b43-47bd-8b4b-889ffa95e8b1",
       "name": "Bandingkan Anggota Baru",
@@ -7599,7 +7599,7 @@
           "mappingMode": "defineBelow",
           "value": {
             "Grup ID": "={{ $json.grup_id }}",
-            "Anggota Diketahui": "={{ $json.anggota_lengkap_csv }}",
+            "Anggota Diketahui": "={{ $json.jumlah_sekarang }}",
             "Update Terakhir": "={{ $now.toFormat('yyyy-MM-dd HH:mm:ss') }}"
           },
           "matchingColumns": [
@@ -7638,7 +7638,7 @@
           "conditions": [
             {
               "id": "d14b84ef-7252-46d2-8bef-6d3a591d9eaa",
-              "leftValue": "={{ $('Bandingkan Anggota Baru').item.json.ada_member_baru }}",
+              "leftValue": "={{ $json.ada_member_baru }}",
               "operator": {
                 "type": "boolean",
                 "operation": "true"
@@ -7675,11 +7675,11 @@
             },
             {
               "name": "receiver",
-              "value": "={{ $('Bandingkan Anggota Baru').item.json.grup_id }}"
+              "value": "={{ $json.grup_id }}"
             },
             {
               "name": "text",
-              "value": "=👋 Halo {{ $('Bandingkan Anggota Baru').item.json.anggota_baru.map(n => '@' + n).join(' ') }}\n\n*[INDO PET MARKET]* Selamat datang di Group Lelang!\n\nUntuk mengetahui informasi lelang:\n- Ketik \"INFO\"\n- Ketik \"IKAN\" / \"REKAP\"\n\nAdmin group 0851 & 0857"
+              "value": "=👋 *[INDO PET MARKET]* Ada {{ $json.member_baru_count }} anggota baru bergabung di Group Lelang! (Total anggota sekarang: {{ $json.jumlah_sekarang }} orang)\n\nUntuk mengetahui informasi lelang:\n- Ketik \"INFO\"\n- Ketik \"IKAN\" / \"REKAP\"\n\nAdmin group 0851 & 0857"
             }
           ]
         },
@@ -8093,7 +8093,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// ANTI-SNIPE / EXTRA TIME\n// Kalau ada bid SAH yang masuk mendekati waktu tutup sesi, waktu tutup\n// otomatis diperpanjang supaya tidak ada yang \"nyelonong\" di detik akhir.\n\nconst pengaturan = $('Pilih Sesi Aktif (Bid)').first().json;\n\nfunction parseWIB(dateStr) {\n  if (!dateStr) return null;\n  const parts = String(dateStr).trim().split(/[- :]/);\n  if (parts.length < 3) return null;\n  const year = parseInt(parts[0], 10);\n  const month = parseInt(parts[1], 10) - 1;\n  const day = parseInt(parts[2], 10);\n  const hour = parseInt(parts[3] || '0', 10);\n  const minute = parseInt(parts[4] || '0', 10);\n  const second = parseInt(parts[5] || '0', 10);\n  return new Date(Date.UTC(year, month, day, hour - 7, minute, second));\n}\n\nfunction fmt(d) {\n  const pad = n => String(n).padStart(2, '0');\n  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;\n}\n\nconst now = new Date();\nconst selesaiLama = parseWIB(pengaturan['Waktu Selesai']);\n\n// Pengaturan opsional di sheet \"Pengaturan\" (boleh dikosongkan, akan pakai default):\n// - \"Extra Time Aktif\"            -> isi TIDAK/OFF untuk mematikan fitur ini per sesi\n// - \"Ambang Extra Time (menit)\"   -> jendela anti-snipe, default 5 menit sebelum tutup\n// - \"Tambahan Extra Time (menit)\" -> berapa menit ditambahkan tiap kena snipe, default 5 menit\nconst statusFitur = String(pengaturan['Extra Time Aktif'] ?? '').trim().toUpperCase();\nconst fiturAktif = !['TIDAK', 'OFF', 'NONAKTIF', 'FALSE'].includes(statusFitur);\n\nconst ambangMenit = parseInt(pengaturan['Ambang Extra Time (menit)']) || 10;\nconst tambahanMenit = parseInt(pengaturan['Tambahan Extra Time (menit)']) || 5;\n\nlet triggered = false;\nlet waktuSelesaiBaru = null;\nlet sisaMenit = null;\n\nif (fiturAktif && selesaiLama) {\n  sisaMenit = (selesaiLama.getTime() - now.getTime()) / 60000;\n  if (sisaMenit > 0 && sisaMenit <= ambangMenit) {\n    triggered = true;\n    const target = new Date(now.getTime() + tambahanMenit * 60000);\n    // Jangan pernah mempersingkat waktu tutup yang sudah ada\n    waktuSelesaiBaru = target > selesaiLama ? target : selesaiLama;\n  }\n}\n\nreturn {\n  ...$json,\n  extra_time_triggered: triggered,\n  session_id: pengaturan['Session ID'],\n  waktu_selesai_lama: pengaturan['Waktu Selesai'],\n  waktu_selesai_baru: waktuSelesaiBaru ? fmt(waktuSelesaiBaru) : null,\n  menit_tambahan: tambahanMenit,\n  ambang_menit: ambangMenit,\n  sisa_menit_sebelum_bid: sisaMenit\n};"
+        "jsCode": "// ANTI-SNIPE / EXTRA TIME\n// Kalau ada bid SAH yang masuk mendekati waktu tutup sesi, waktu tutup\n// otomatis diperpanjang supaya tidak ada yang \"nyelonong\" di detik akhir.\n\nconst pengaturan = $('Pilih Sesi Aktif (Bid)').first().json;\n\nfunction parseWIB(dateStr) {\n  if (!dateStr) return null;\n  const parts = String(dateStr).trim().split(/[- :]/);\n  if (parts.length < 3) return null;\n  const year = parseInt(parts[0], 10);\n  const month = parseInt(parts[1], 10) - 1;\n  const day = parseInt(parts[2], 10);\n  const hour = parseInt(parts[3] || '0', 10);\n  const minute = parseInt(parts[4] || '0', 10);\n  const second = parseInt(parts[5] || '0', 10);\n  return new Date(Date.UTC(year, month, day, hour - 7, minute, second));\n}\n\nfunction fmt(d) {\n  // d adalah instant UTC yang valid (real time). Server n8n bisa berjalan di timezone\n  // apa saja (sering UTC), jadi JANGAN pakai getHours()/getFullYear() (ikut timezone lokal\n  // server) -- itu penyebab bug \"waktu selesai\" meleset -7 jam (mis. 11:45 tertulis 04:45).\n  // Geser +7 jam dulu lalu baca pakai getter UTC supaya hasilnya konsisten sebagai jam WIB\n  // di server manapun workflow ini dijalankan.\n  const wib = new Date(d.getTime() + 7 * 60 * 60 * 1000);\n  const pad = n => String(n).padStart(2, '0');\n  return `${wib.getUTCFullYear()}-${pad(wib.getUTCMonth() + 1)}-${pad(wib.getUTCDate())} ${pad(wib.getUTCHours())}:${pad(wib.getUTCMinutes())}:${pad(wib.getUTCSeconds())}`;\n}\n\nconst now = new Date();\nconst selesaiLama = parseWIB(pengaturan['Waktu Selesai']);\n\n// Pengaturan opsional di sheet \"Pengaturan\" (boleh dikosongkan, akan pakai default):\n// - \"Extra Time Aktif\"            -> isi TIDAK/OFF untuk mematikan fitur ini per sesi\n// - \"Ambang Extra Time (menit)\"   -> jendela anti-snipe, default 5 menit sebelum tutup\n// - \"Tambahan Extra Time (menit)\" -> berapa menit ditambahkan tiap kena snipe, default 5 menit\nconst statusFitur = String(pengaturan['Extra Time Aktif'] ?? '').trim().toUpperCase();\nconst fiturAktif = !['TIDAK', 'OFF', 'NONAKTIF', 'FALSE'].includes(statusFitur);\n\nconst ambangMenit = parseInt(pengaturan['Ambang Extra Time (menit)']) || 10;\nconst tambahanMenit = parseInt(pengaturan['Tambahan Extra Time (menit)']) || 5;\n\nlet triggered = false;\nlet waktuSelesaiBaru = null;\nlet sisaMenit = null;\n\nif (fiturAktif && selesaiLama) {\n  sisaMenit = (selesaiLama.getTime() - now.getTime()) / 60000;\n  if (sisaMenit > 0 && sisaMenit <= ambangMenit) {\n    triggered = true;\n    const target = new Date(now.getTime() + tambahanMenit * 60000);\n    // Jangan pernah mempersingkat waktu tutup yang sudah ada\n    waktuSelesaiBaru = target > selesaiLama ? target : selesaiLama;\n  }\n}\n\nreturn {\n  ...$json,\n  extra_time_triggered: triggered,\n  session_id: pengaturan['Session ID'],\n  waktu_selesai_lama: pengaturan['Waktu Selesai'],\n  waktu_selesai_baru: waktuSelesaiBaru ? fmt(waktuSelesaiBaru) : null,\n  menit_tambahan: tambahanMenit,\n  ambang_menit: ambangMenit,\n  sisa_menit_sebelum_bid: sisaMenit\n};"
       },
       "id": "5db85c02-47e1-4e6a-9496-915bca3a5852",
       "name": "Cek Extra Time (Anti-Snipe)",
@@ -10163,19 +10163,18 @@
             "node": "Update Tracking Anggota Grup",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "Update Tracking Anggota Grup": {
-      "main": [
-        [
+          },
           {
             "node": "IF Ada Member Baru?",
             "type": "main",
             "index": 0
           }
         ]
+      ]
+    },
+    "Update Tracking Anggota Grup": {
+      "main": [
+        []
       ]
     },
     "IF Ada Member Baru?": {
