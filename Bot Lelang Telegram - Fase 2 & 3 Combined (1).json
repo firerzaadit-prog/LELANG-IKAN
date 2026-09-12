@@ -8330,6 +8330,192 @@
         -4064,
         6848
       ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
+          "mode": "list",
+          "cachedResultName": "DATABASE LELANG",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Produk",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=gid=0"
+        },
+        "options": {}
+      },
+      "id": "24cc5ffa-36c9-4f67-a4c7-216e1e070044",
+      "name": "Baca Produk (Buka Sesi)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        3376,
+        5904
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IVDIwvjA1JT24Cpa",
+          "name": "KLIEN LELANG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const hariKe = $('Evaluasi Mulai1').first().json['Hari Ke'];\nconst rows = $input.all().map(i => i.json);\n\n// Buka semua produk hari ini yang sudah diisi (ada Nama Produk) dan belum \"Closed\" --\n// baris kosong/placeholder dan produk yang sudah ditutup (mis. laku BIN) tidak disentuh.\nconst produkDibuka = rows.filter(p =>\n  String(p['Hari Ke']).trim() === String(hariKe).trim() &&\n  String(p['Nama Produk'] || '').trim() !== '' &&\n  String(p['Status'] || '').trim() !== 'Closed'\n);\n\nreturn produkDibuka.map(p => ({ json: { 'Kode Produk': p['Kode Produk'] } }));"
+      },
+      "id": "26861f04-174b-4683-90c9-b3c1f03f0cf3",
+      "name": "Siapkan Buka Produk (Manual)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3616,
+        5904
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
+          "mode": "list",
+          "cachedResultName": "DATABASE LELANG",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Produk",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Kode Produk": "={{ $json['Kode Produk'] }}",
+            "Status": "Open"
+          },
+          "matchingColumns": [
+            "Kode Produk"
+          ],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "3950ee49-5897-4f96-a01d-7baed3bc5a61",
+      "name": "Buka Produk Hari Ini (Manual)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        3856,
+        5904
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IVDIwvjA1JT24Cpa",
+          "name": "KLIEN LELANG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
+          "mode": "list",
+          "cachedResultName": "DATABASE LELANG",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Produk",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=gid=0"
+        },
+        "options": {}
+      },
+      "id": "8a89873c-116a-46f5-8dc9-00a0fa222a91",
+      "name": "Baca Produk (Buka Sesi Otomatis)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1840,
+        9568
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IVDIwvjA1JT24Cpa",
+          "name": "KLIEN LELANG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const hariKe = $('Cek Waktu Mulai Otomatis').first().json['Hari Ke'];\nconst rows = $input.all().map(i => i.json);\n\n// Buka semua produk hari ini yang sudah diisi (ada Nama Produk) dan belum \"Closed\" --\n// baris kosong/placeholder dan produk yang sudah ditutup (mis. laku BIN) tidak disentuh.\nconst produkDibuka = rows.filter(p =>\n  String(p['Hari Ke']).trim() === String(hariKe).trim() &&\n  String(p['Nama Produk'] || '').trim() !== '' &&\n  String(p['Status'] || '').trim() !== 'Closed'\n);\n\nreturn produkDibuka.map(p => ({ json: { 'Kode Produk': p['Kode Produk'] } }));"
+      },
+      "id": "15b6274a-3772-43c7-9848-154d0fbf57bc",
+      "name": "Siapkan Buka Produk (Otomatis)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2080,
+        9568
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
+          "mode": "list",
+          "cachedResultName": "DATABASE LELANG",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Produk",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Kode Produk": "={{ $json['Kode Produk'] }}",
+            "Status": "Open"
+          },
+          "matchingColumns": [
+            "Kode Produk"
+          ],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "708cf662-8c9e-4e24-954a-60471d7c5914",
+      "name": "Buka Produk Hari Ini (Otomatis)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2320,
+        9568
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IVDIwvjA1JT24Cpa",
+          "name": "KLIEN LELANG"
+        }
+      }
     }
   ],
   "pinData": {
@@ -8943,6 +9129,11 @@
         [
           {
             "node": "Kirim Notifikasi Mulai1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Baca Produk (Buka Sesi)",
             "type": "main",
             "index": 0
           }
@@ -9882,6 +10073,11 @@
             "node": "Kirim Notifikasi Mulai Otomatis",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Baca Produk (Buka Sesi Otomatis)",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -10304,6 +10500,50 @@
         [
           {
             "node": "Kirim Notifikasi Masuk Extra Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baca Produk (Buka Sesi)": {
+      "main": [
+        [
+          {
+            "node": "Siapkan Buka Produk (Manual)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Siapkan Buka Produk (Manual)": {
+      "main": [
+        [
+          {
+            "node": "Buka Produk Hari Ini (Manual)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baca Produk (Buka Sesi Otomatis)": {
+      "main": [
+        [
+          {
+            "node": "Siapkan Buka Produk (Otomatis)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Siapkan Buka Produk (Otomatis)": {
+      "main": [
+        [
+          {
+            "node": "Buka Produk Hari Ini (Otomatis)",
             "type": "main",
             "index": 0
           }
