@@ -7567,7 +7567,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// PENTING soal mode eksekusi node ini:\n// Kalau ada LEBIH DARI 1 grup WA aktif bersamaan, node \"Baca Tracking Anggota Grup\" akan\n// jalan sekali per grup dan tiap kali membaca ULANG seluruh sheet \"Anggota Grup\" -- jadi\n// $input.all() di sini bisa berisi baris yang terduplikasi per grup. Kode di bawah SENGAJA\n// tidak memakai `.item` (yang cuma valid dalam mode \"Run Once for Each Item\") dan tidak\n// mengandalkan urutan/posisi item, supaya tetap benar walau datanya terduplikasi begitu.\nconst grupItems = $('Ambil Grup Aktif untuk Cek Member').all();\nconst fetchItems = $('Fetch Anggota Grup').all();\nconst trackingRows = $input.all().map(i => i.json);\n\nconst hasil = [];\n\nfor (let i = 0; i < grupItems.length; i++) {\n  const grupInfo = grupItems[i].json;\n  const grupId = grupInfo.grup_id;\n  const resp = fetchItems[i] ? fetchItems[i].json : null;\n\n  // Kalau panggilan API-nya gagal/kena limit (resp.status === false) atau tidak ada respons,\n  // JANGAN lanjut -- batalkan diam-diam supaya jumlah anggota yang sudah tercatat tidak\n  // ketimpa data kosong/salah.\n  if (!resp || resp.status === false) continue;\n\n  // Bentuk respons Fetch Member: { status, message, total_participants, data: [...] }\n  let anggotaMentah = [];\n  const kandidat = [resp.data, resp.participants, resp.members, resp.result, Array.isArray(resp) ? resp : null];\n  for (const k of kandidat) {\n    if (Array.isArray(k)) { anggotaMentah = k; break; }\n  }\n\n  // Utamakan total_participants dari API (paling akurat); fallback ke panjang array data.\n  const totalDariApi = parseInt(resp.total_participants, 10);\n  const jumlahSekarang = Number.isFinite(totalDariApi) && totalDariApi > 0\n    ? totalDariApi\n    : anggotaMentah.length;\n\n  // Respons tidak lengkap/kosong -- jangan proses, biar tracking lama tidak ketimpa 0.\n  if (!jumlahSekarang) continue;\n\n  // Nama grup WA buat pesan sambutan -- field persis dari API fetch-member belum terkonfirmasi,\n  // jadi dicoba beberapa nama kandidat yang umum dipakai. Kalau ternyata field-nya beda, sesuaikan\n  // daftar di bawah ini setelah cek respons asli API-nya.\n  const namaGrup = resp.groupName || resp.group_name || resp.groupname || resp.name || resp.subject || '';\n\n  const trackingRow = trackingRows.find(r => String(r['Grup ID']).trim() === String(grupId).trim());\n  const jumlahSebelumnya = trackingRow ? (parseInt(trackingRow['Anggota Diketahui'], 10) || 0) : 0;\n\n  // Baseline pertama kali (grup belum pernah tercatat) -- simpan jumlah awal, jangan kirim notif.\n  const isPertamaKali = !trackingRow || jumlahSebelumnya === 0;\n  const selisih = jumlahSekarang - jumlahSebelumnya;\n  const memberBaruCount = (!isPertamaKali && selisih > 0) ? selisih : 0;\n\n  hasil.push({\n    json: {\n      grup_id: grupId,\n      nama_grup: namaGrup,\n      admin_ids: grupInfo.admin_ids,\n      link_website: grupInfo.link_website,\n      jumlah_sekarang: jumlahSekarang,\n      jumlah_sebelumnya: jumlahSebelumnya,\n      member_baru_count: memberBaruCount,\n      ada_member_baru: memberBaruCount > 0\n    }\n  });\n}\n\nreturn hasil;"
+        "jsCode": "// PENTING soal mode eksekusi node ini:\n// Kalau ada LEBIH DARI 1 grup WA aktif bersamaan, node \"Baca Tracking Anggota Grup\" akan\n// jalan sekali per grup dan tiap kali membaca ULANG seluruh sheet \"Anggota Grup\" -- jadi\n// $input.all() di sini bisa berisi baris yang terduplikasi per grup. Kode di bawah SENGAJA\n// tidak memakai `.item` (yang cuma valid dalam mode \"Run Once for Each Item\") dan tidak\n// mengandalkan urutan/posisi item, supaya tetap benar walau datanya terduplikasi begitu.\nconst grupItems = $('Ambil Grup Aktif untuk Cek Member').all();\nconst fetchItems = $('Fetch Anggota Grup').all();\nconst infoGrupItems = $('Fetch Info Grup').all();\nconst trackingRows = $input.all().map(i => i.json);\n\nconst hasil = [];\n\nfor (let i = 0; i < grupItems.length; i++) {\n  const grupInfo = grupItems[i].json;\n  const grupId = grupInfo.grup_id;\n  const resp = fetchItems[i] ? fetchItems[i].json : null;\n\n  // Kalau panggilan API-nya gagal/kena limit (resp.status === false) atau tidak ada respons,\n  // JANGAN lanjut -- batalkan diam-diam supaya jumlah anggota yang sudah tercatat tidak\n  // ketimpa data kosong/salah.\n  if (!resp || resp.status === false) continue;\n\n  // Bentuk respons Fetch Member: { status, message, total_participants, data: [...] }\n  let anggotaMentah = [];\n  const kandidat = [resp.data, resp.participants, resp.members, resp.result, Array.isArray(resp) ? resp : null];\n  for (const k of kandidat) {\n    if (Array.isArray(k)) { anggotaMentah = k; break; }\n  }\n\n  // Utamakan total_participants dari API (paling akurat); fallback ke panjang array data.\n  const totalDariApi = parseInt(resp.total_participants, 10);\n  const jumlahSekarang = Number.isFinite(totalDariApi) && totalDariApi > 0\n    ? totalDariApi\n    : anggotaMentah.length;\n\n  // Respons tidak lengkap/kosong -- jangan proses, biar tracking lama tidak ketimpa 0.\n  if (!jumlahSekarang) continue;\n\n  // Nama grup WA buat pesan sambutan. Diambil dari endpoint \"fetch-group\" (daftar semua grup),\n  // dicari yang ID-nya cocok dengan grup ini. Nama field persis dari API-nya belum terkonfirmasi\n  // (dokumentasi tidak menyertakan contoh response), jadi dicoba beberapa kandidat umum baik untuk\n  // field ID maupun field nama. Fallback terakhir: coba juga field serupa di respons fetch-member.\n  let daftarGrup = [];\n  const infoResp = infoGrupItems[i] ? infoGrupItems[i].json : null;\n  if (infoResp) {\n    const kandidatList = [infoResp.data, infoResp.groups, infoResp.result, Array.isArray(infoResp) ? infoResp : null];\n    for (const k of kandidatList) {\n      if (Array.isArray(k)) { daftarGrup = k; break; }\n    }\n  }\n  const grupInfoMatch = daftarGrup.find(g => {\n    const idKandidat = g.id || g.jid || g.idgroup || g.group_id || g.groupId || '';\n    return String(idKandidat) === String(grupId);\n  });\n  const namaGrup = grupInfoMatch\n    ? (grupInfoMatch.name || grupInfoMatch.subject || grupInfoMatch.groupName || grupInfoMatch.group_name || '')\n    : (resp.groupName || resp.group_name || resp.groupname || resp.name || resp.subject || '');\n\n  const trackingRow = trackingRows.find(r => String(r['Grup ID']).trim() === String(grupId).trim());\n  const jumlahSebelumnya = trackingRow ? (parseInt(trackingRow['Anggota Diketahui'], 10) || 0) : 0;\n\n  // Baseline pertama kali (grup belum pernah tercatat) -- simpan jumlah awal, jangan kirim notif.\n  const isPertamaKali = !trackingRow || jumlahSebelumnya === 0;\n  const selisih = jumlahSekarang - jumlahSebelumnya;\n  const memberBaruCount = (!isPertamaKali && selisih > 0) ? selisih : 0;\n\n  hasil.push({\n    json: {\n      grup_id: grupId,\n      nama_grup: namaGrup,\n      admin_ids: grupInfo.admin_ids,\n      link_website: grupInfo.link_website,\n      jumlah_sekarang: jumlahSekarang,\n      jumlah_sebelumnya: jumlahSebelumnya,\n      member_baru_count: memberBaruCount,\n      ada_member_baru: memberBaruCount > 0\n    }\n  });\n}\n\nreturn hasil;"
       },
       "id": "6dc22fd9-2b43-47bd-8b4b-889ffa95e8b1",
       "name": "Bandingkan Anggota Baru",
@@ -8516,6 +8516,30 @@
           "name": "KLIEN LELANG"
         }
       }
+    },
+    {
+      "parameters": {
+        "url": "https://app.notif.my.id/api/v2/fetch-group",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "=***REMOVED-SECRET***"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f0d98887-8e75-454a-a0bb-f7c70f0c6a28",
+      "name": "Fetch Info Grup",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1224,
+        9952
+      ],
+      "onError": "continueRegularOutput"
     }
   ],
   "pinData": {
@@ -10334,7 +10358,7 @@
       "main": [
         [
           {
-            "node": "Baca Tracking Anggota Grup",
+            "node": "Fetch Info Grup",
             "type": "main",
             "index": 0
           }
@@ -10544,6 +10568,17 @@
         [
           {
             "node": "Buka Produk Hari Ini (Otomatis)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Info Grup": {
+      "main": [
+        [
+          {
+            "node": "Baca Tracking Anggota Grup",
             "type": "main",
             "index": 0
           }
