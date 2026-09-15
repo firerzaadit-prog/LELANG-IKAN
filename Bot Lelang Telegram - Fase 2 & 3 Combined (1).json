@@ -72,16 +72,25 @@
                 },
                 "conditions": [
                   {
-                    "id": "b6e196f0-3ee7-4ed5-b14d-5296bbbe0c75",
+                    "id": "d1",
                     "leftValue": "={{ $json.text_upper }}",
-                    "rightValue": "^(LINK|FOTO|VIDEO|SERTIFIKAT)\\s+[0-9]+$|^IKAN\\s+[0-9]+(\\s+VIDEO)?$",
+                    "rightValue": "^(FOTO|VIDEO|SERTIFIKAT)\\s+[0-9]+$",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  },
+                  {
+                    "id": "d2",
+                    "leftValue": "={{ $json.text_upper }}",
+                    "rightValue": "^[0-9]+\\s+(FOTO|VIDEO|SERTIFIKAT)$",
                     "operator": {
                       "type": "string",
                       "operation": "regex"
                     }
                   }
                 ],
-                "combinator": "and"
+                "combinator": "or"
               }
             },
             {
@@ -116,60 +125,25 @@
                 },
                 "conditions": [
                   {
-                    "id": "ce156e3a-9ed9-49db-bff5-5fd39c642725",
+                    "id": "d3",
                     "leftValue": "={{ $json.text_upper }}",
                     "rightValue": "^BATALKAN TAWAR\\s+[0-9]+$",
                     "operator": {
                       "type": "string",
                       "operation": "regex"
                     }
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
+                  },
                   {
-                    "id": "257c07a2-d3f5-4fe7-98ca-67daf1896d70",
+                    "id": "d4",
                     "leftValue": "={{ $json.text_upper }}",
-                    "rightValue": "TUTUP PAKSA",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "8e49768b-dfec-4750-96a7-8005e0f02d40",
-                    "leftValue": "={{ $json.text_upper }}",
-                    "rightValue": "^TAMBAH WAKTU\\s+[0-9]+$",
+                    "rightValue": "^[0-9]+\\s+BATALKAN TAWAR$",
                     "operator": {
                       "type": "string",
                       "operation": "regex"
                     }
                   }
                 ],
-                "combinator": "and"
+                "combinator": "or"
               }
             },
             {
@@ -205,7 +179,7 @@
                 },
                 "conditions": [
                   {
-                    "id": "db1cfb98-78f2-4de0-83f8-24771f2ae1c1",
+                    "id": "d829c973-d0e1-4733-a4fb-8e82d4d3f1f5",
                     "leftValue": "={{ $json.text_upper }}",
                     "rightValue": "^REKAP\\s+[0-9]+$",
                     "operator": {
@@ -217,6 +191,24 @@
                     "id": "07b78960-7029-4026-9f70-109014793f5f",
                     "leftValue": "={{ $json.text_upper }}",
                     "rightValue": "^[0-9]+\\s+REKAP$",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  },
+                  {
+                    "id": "d5",
+                    "leftValue": "={{ $json.text_upper }}",
+                    "rightValue": "^IKAN\\s+[0-9]+$",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  },
+                  {
+                    "id": "d6",
+                    "leftValue": "={{ $json.text_upper }}",
+                    "rightValue": "^[0-9]+\\s+IKAN$",
                     "operator": {
                       "type": "string",
                       "operation": "regex"
@@ -281,16 +273,56 @@
                 },
                 "conditions": [
                   {
-                    "id": "9d39d5f8-4949-47d0-b22d-545422a66c86",
+                    "id": "d7",
                     "leftValue": "={{ $json.text_upper }}",
                     "rightValue": "^BIN\\s+[0-9]+(\\s*,\\s*[0-9]+)*$",
                     "operator": {
                       "type": "string",
                       "operation": "regex"
                     }
+                  },
+                  {
+                    "id": "d8",
+                    "leftValue": "={{ $json.text_upper }}",
+                    "rightValue": "^[0-9]+(\\s*,\\s*[0-9]+)*\\s+BIN$",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
                   }
                 ],
-                "combinator": "and"
+                "combinator": "or"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d9",
+                    "leftValue": "={{ $json.text_upper }}",
+                    "rightValue": "^CANCEL BID\\s+[0-9]+$",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  },
+                  {
+                    "id": "d10",
+                    "leftValue": "={{ $json.text_upper }}",
+                    "rightValue": "^[0-9]+\\s+CANCEL BID$",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "or"
               }
             }
           ]
@@ -947,7 +979,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const text = $json.text_upper;\nconst m = text.match(/^BATALKAN TAWAR\\s+([0-9]+)$/);\nreturn {\n  kode_produk: m ? m[1] : null,\n  chat_id: $json.chat_id\n};"
+        "jsCode": "const text = $json.text_upper;\nlet m = text.match(/^BATALKAN TAWAR\\s+([0-9]+)$/);\nif (!m) m = text.match(/^([0-9]+)\\s+BATALKAN TAWAR$/);\nreturn {\n  kode_produk: m ? m[1] : null,\n  chat_id: $json.chat_id\n};"
       },
       "id": "b068856b-c948-4082-879f-38b40731d1ef",
       "name": "Parser Batalkan",
@@ -1152,7 +1184,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const rollback = $('Hitung Rollback').first().json;\nconst produkAll = $input.all().map(i => i.json);\nconst produk = produkAll.find(p => String(p['Kode Produk']) === String(rollback.kode_produk));\n\nif (!produk) {\n  return [{ json: { error: true, pesan: `Produk ${rollback.kode_produk} tidak ditemukan.` } }];\n}\n\nconst hargaSebelumBatal = parseInt(produk['Harga Tertinggi Saat Ini']) || 0;\nconst hargaBaru = rollback.ada_rollback ? rollback.harga_rollback : (parseInt(produk['Harga Awal (OT)']) || 0);\nconst penawarBaru = rollback.ada_rollback ? rollback.penawar_rollback_id : '';\nconst jumlahBaru = Math.max((parseInt(produk['Jumlah Bid Masuk']) || 1) - 1, 0);\n\nreturn [{ json: {\n  error: false,\n  kode_produk: rollback.kode_produk,\n  harga_baru: hargaBaru,\n  penawar_baru: penawarBaru,\n  jumlah_baru: jumlahBaru,\n  harga_sebelum_batal: hargaSebelumBatal\n} }];"
+        "jsCode": "const rollback = $('Hitung Rollback').first().json;\nconst produkAll = $input.all().map(i => i.json);\nconst produk = produkAll.find(p => String(p['Kode Produk']) === String(rollback.kode_produk));\n\nif (!produk) {\n  return [{ json: { error: true, pesan: `Produk ${rollback.kode_produk} tidak ditemukan.` } }];\n}\n\nconst hargaSebelumBatal = parseInt(produk['Harga Tertinggi Saat Ini']) || 0;\nconst hargaBaru = rollback.ada_rollback ? rollback.harga_rollback : (parseInt(produk['Harga Awal (OB)']) || 0);\nconst penawarBaru = rollback.ada_rollback ? rollback.penawar_rollback_id : '';\nconst jumlahBaru = Math.max((parseInt(produk['Jumlah Bid Masuk']) || 1) - 1, 0);\n\nreturn [{ json: {\n  error: false,\n  kode_produk: rollback.kode_produk,\n  harga_baru: hargaBaru,\n  penawar_baru: penawarBaru,\n  jumlah_baru: jumlahBaru,\n  harga_sebelum_batal: hargaSebelumBatal\n} }];"
       },
       "id": "88f26461-93a2-474c-ac8f-e4d0503846b1",
       "name": "Siapkan Update Batalkan",
@@ -1553,354 +1585,6 @@
       "position": [
         6112,
         7680
-      ]
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
-          "mode": "list",
-          "cachedResultName": "DATABASE LELANG",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 740556684,
-          "mode": "list",
-          "cachedResultName": "Pengaturan",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=740556684"
-        },
-        "options": {}
-      },
-      "id": "d30967e7-2e41-4752-85c6-4b3ae0e3e176",
-      "name": "Baca Pengaturan (Tutup Paksa)",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [
-        592,
-        8240
-      ],
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "IVDIwvjA1JT24Cpa",
-          "name": "KLIEN LELANG"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 1
-          },
-          "conditions": [
-            {
-              "id": "d86ef540-3bbd-4b52-9d17-d42729bb8a05",
-              "leftValue": "={{ (String($json['Admin IDs'] || '').split(',').map(s => s.trim())).includes(String($('Normalize Pesan').first().json.sender_id)) }}",
-              "operator": {
-                "type": "boolean",
-                "operation": "true"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "2027acb5-eead-4c99-bdec-a0924d36984b",
-      "name": "Cek Admin (Tutup Paksa)",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        1392,
-        8320
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://app.notif.my.id/api/v2/send-message",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "={{ $('WA Config').first().json.apikey }}"
-            },
-            {
-              "name": "mtype",
-              "value": "text"
-            },
-            {
-              "name": "receiver",
-              "value": "={{ $('Normalize Pesan').first().json.chat_id }}"
-            },
-            {
-              "name": "answering",
-              "value": "yes"
-            },
-            {
-              "name": "id",
-              "value": "={{ $('Normalize Pesan').first().json.message_id }}"
-            },
-            {
-              "name": "participant",
-              "value": "={{ $('Normalize Pesan').first().json.is_group ? ($('Normalize Pesan').first().json.sender_id + '@s.whatsapp.net') : '' }}"
-            },
-            {
-              "name": "text",
-              "value": "=Maaf, command TUTUP PAKSA hanya bisa dipakai admin terdaftar."
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "1c7d4e0e-f537-491a-819e-c9154e67a316",
-      "name": "Tolak Bukan Admin (Tutup Paksa)",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        2272,
-        8752
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "const text = $json.text_upper;\nconst m = text.match(/^TAMBAH WAKTU\\s+([0-9]+)$/);\nreturn { menit: m ? parseInt(m[1]) : 0, chat_id: $json.chat_id };"
-      },
-      "id": "5bed6211-16dc-45a9-ae00-ec61c2d82291",
-      "name": "Parser Tambah Waktu",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        3936,
-        8944
-      ]
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
-          "mode": "list",
-          "cachedResultName": "DATABASE LELANG",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 740556684,
-          "mode": "list",
-          "cachedResultName": "Pengaturan",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=740556684"
-        },
-        "options": {}
-      },
-      "id": "f47bfec0-c524-4877-9e0b-1853b989d04d",
-      "name": "Baca Pengaturan (Tambah Waktu)",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [
-        4160,
-        8944
-      ],
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "IVDIwvjA1JT24Cpa",
-          "name": "KLIEN LELANG"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 1
-          },
-          "conditions": [
-            {
-              "id": "1164b15d-9192-47cc-8863-7eecca0bb627",
-              "leftValue": "={{ String($json['Admin IDs'] || '').split(',').map(s => s.trim()).includes(String($('Normalize Pesan').first().json.sender_id)) }}",
-              "operator": {
-                "type": "boolean",
-                "operation": "true"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "8b803275-e50e-4daf-b5a1-980cde9a30fb",
-      "name": "Cek Admin (Tambah Waktu)",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        4368,
-        8640
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://app.notif.my.id/api/v2/send-message",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "={{ $('WA Config').first().json.apikey }}"
-            },
-            {
-              "name": "mtype",
-              "value": "text"
-            },
-            {
-              "name": "receiver",
-              "value": "={{ $('Normalize Pesan').first().json.chat_id }}"
-            },
-            {
-              "name": "answering",
-              "value": "yes"
-            },
-            {
-              "name": "id",
-              "value": "={{ $('Normalize Pesan').first().json.message_id }}"
-            },
-            {
-              "name": "participant",
-              "value": "={{ $('Normalize Pesan').first().json.is_group ? ($('Normalize Pesan').first().json.sender_id + '@s.whatsapp.net') : '' }}"
-            },
-            {
-              "name": "text",
-              "value": "=Maaf, command TAMBAH WAKTU hanya bisa dipakai admin terdaftar."
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "949f00c7-1eaa-4f9f-9e50-a12bd68f8e37",
-      "name": "Tolak Bukan Admin (Tambah Waktu)",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        4816,
-        8800
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "const pengaturan = $json;\nconst menit = $('Parser Tambah Waktu').first().json.menit;\n\n// Sheet kadang menyimpan \"Waktu Selesai\" dalam format DD/MM/YYYY HH:mm:ss (tampilan lokal\n// ID -- muncul kalau selnya sempat ke-format Google Sheets sebagai Date). Normalisasi dulu\n// ke YYYY-MM-DD supaya tidak salah dibaca oleh parser Date bawaan JS (yang gampang keliru\n// bulan/hari untuk format DD/MM/YYYY).\nlet raw = String(pengaturan['Waktu Selesai']).trim();\nconst dmy = raw.match(/^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})([ T].*)?$/);\nif (dmy) {\n  const [, d, mo, y, sisaJam] = dmy;\n  raw = `${y}-${mo.padStart(2, '0')}-${d.padStart(2, '0')}${sisaJam || ''}`;\n}\n\n// Hapus '+07:00' agar tidak bergeser mengikuti zona waktu server n8n\nconst selesaiLama = new Date(raw.replace(' ', 'T'));\nselesaiLama.setMinutes(selesaiLama.getMinutes() + menit);\n\nfunction fmt(d) {\n  const pad = n => String(n).padStart(2, '0');\n  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;\n}\n\nreturn { \n  waktu_selesai_baru: fmt(selesaiLama), \n  menit_tambahan: menit,\n  lama: selesaiLama\n};"
-      },
-      "id": "6ab35c95-9a3c-45f4-9695-532122bc1b30",
-      "name": "Hitung Waktu Baru",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        4720,
-        8576
-      ]
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
-          "mode": "list",
-          "cachedResultName": "DATABASE LELANG",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 740556684,
-          "mode": "list",
-          "cachedResultName": "Pengaturan",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=740556684"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Session ID": "={{ $('Pilih Sesi Aktif (Tambah Waktu)').first().json['Session ID'] }}",
-            "Waktu Selesai": "={{ $json.waktu_selesai_baru }}",
-            "Auto Close Notified": "FALSE"
-          },
-          "matchingColumns": [
-            "Session ID"
-          ],
-          "schema": [],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "id": "a306fc87-2989-4e6a-b213-7135282d4e1e",
-      "name": "Update Pengaturan Tambah Waktu",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [
-        5008,
-        8576
-      ],
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "IVDIwvjA1JT24Cpa",
-          "name": "KLIEN LELANG"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://app.notif.my.id/api/v2/send-message",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "={{ $('WA Config').first().json.apikey }}"
-            },
-            {
-              "name": "mtype",
-              "value": "text"
-            },
-            {
-              "name": "receiver",
-              "value": "={{ $('Normalize Pesan').first().json.chat_id }}"
-            },
-            {
-              "name": "answering",
-              "value": "yes"
-            },
-            {
-              "name": "id",
-              "value": "={{ $('Normalize Pesan').first().json.message_id }}"
-            },
-            {
-              "name": "participant",
-              "value": "={{ $('Normalize Pesan').first().json.is_group ? ($('Normalize Pesan').first().json.sender_id + '@s.whatsapp.net') : '' }}"
-            },
-            {
-              "name": "text",
-              "value": "=⏱ Waktu lelang diperpanjang {{ $('Hitung Waktu Baru').item.json.menit_tambahan }} menit. Sekarang berakhir pukul {{ $('Hitung Waktu Baru').item.json.waktu_selesai_baru }}."
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "fd1b1604-6256-4e61-8e7e-ab56819ee853",
-      "name": "Broadcast Tambah Waktu",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        5344,
-        8736
       ]
     },
     {
@@ -2339,192 +2023,6 @@
       "position": [
         4720,
         8144
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "const rows = $input.all().map(i => i.json);\nconst aktif = rows.find(r => String(r['Status Lelang']).trim() === 'Berjalan');\nif (aktif) return [{ json: { ada_sesi_aktif: true, ...aktif }, pairedItem: 0 }];\nreturn [{ json: { ada_sesi_aktif: false, 'Status Lelang': 'Tidak Ada', 'Session ID': null, 'Hari Ke': null, 'Admin IDs': '', 'Grup WA Target': null }, pairedItem: 0 }];"
-      },
-      "id": "040445c7-c21a-4b4b-86e1-7561f4574bc8",
-      "name": "Pilih Sesi Aktif (Tutup Paksa)",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        896,
-        8208
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 1
-          },
-          "conditions": [
-            {
-              "id": "9d0beca0-2b67-4d36-8272-78ce7eab6874",
-              "leftValue": "={{ $json.ada_sesi_aktif }}",
-              "operator": {
-                "type": "boolean",
-                "operation": "true"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "27ecc47c-f6f1-4feb-93b4-7b52cc018ba1",
-      "name": "IF Ada Sesi Aktif? (Tutup Paksa)",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        1136,
-        8288
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://app.notif.my.id/api/v2/send-message",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "={{ $('WA Config').first().json.apikey }}"
-            },
-            {
-              "name": "mtype",
-              "value": "text"
-            },
-            {
-              "name": "receiver",
-              "value": "={{ $('Normalize Pesan').first().json.chat_id }}"
-            },
-            {
-              "name": "answering",
-              "value": "yes"
-            },
-            {
-              "name": "id",
-              "value": "={{ $('Normalize Pesan').first().json.message_id }}"
-            },
-            {
-              "name": "participant",
-              "value": "={{ $('Normalize Pesan').first().json.is_group ? ($('Normalize Pesan').first().json.sender_id + '@s.whatsapp.net') : '' }}"
-            },
-            {
-              "name": "text",
-              "value": "=⚠️ Tidak ada lelang yang sedang berjalan saat ini."
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "9fd67096-15e8-49d9-aa8c-9526304cda69",
-      "name": "Tolak Tidak Ada Sesi (Tutup Paksa)",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1824,
-        8848
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "const rows = $input.all().map(i => i.json);\nconst aktif = rows.find(r => String(r['Status Lelang']).trim() === 'Berjalan');\nif (aktif) return [{ json: { ada_sesi_aktif: true, ...aktif }, pairedItem: 0 }];\nreturn [{ json: { ada_sesi_aktif: false, 'Status Lelang': 'Tidak Ada', 'Session ID': null, 'Hari Ke': null, 'Admin IDs': '', 'Grup WA Target': null }, pairedItem: 0 }];"
-      },
-      "id": "cdafa4db-9feb-43fc-bab6-3380dd5f361a",
-      "name": "Pilih Sesi Aktif (Tambah Waktu)",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        4400,
-        8992
-      ]
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 1
-          },
-          "conditions": [
-            {
-              "id": "087eeca0-f80c-4f0f-b2f6-d87c69544a71",
-              "leftValue": "={{ $json.ada_sesi_aktif }}",
-              "operator": {
-                "type": "boolean",
-                "operation": "true"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "8c71eab4-b7a2-4de3-b48e-8729536ddb9d",
-      "name": "IF Ada Sesi Aktif? (Tambah Waktu)",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        4656,
-        8976
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://app.notif.my.id/api/v2/send-message",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "={{ $('WA Config').first().json.apikey }}"
-            },
-            {
-              "name": "mtype",
-              "value": "text"
-            },
-            {
-              "name": "receiver",
-              "value": "={{ $('Normalize Pesan').first().json.chat_id }}"
-            },
-            {
-              "name": "answering",
-              "value": "yes"
-            },
-            {
-              "name": "id",
-              "value": "={{ $('Normalize Pesan').first().json.message_id }}"
-            },
-            {
-              "name": "participant",
-              "value": "={{ $('Normalize Pesan').first().json.is_group ? ($('Normalize Pesan').first().json.sender_id + '@s.whatsapp.net') : '' }}"
-            },
-            {
-              "name": "text",
-              "value": "=⚠️ Tidak ada lelang yang sedang berjalan saat ini, jadi waktu tidak bisa ditambah."
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "abab5187-5946-4e11-b67a-39fa554e0e09",
-      "name": "Tolak Tidak Ada Sesi (Tambah Waktu)",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        4832,
-        9104
       ]
     },
     {
@@ -3161,7 +2659,7 @@
             },
             {
               "name": "text",
-              "value": "=⚠️ Tidak bisa memulai hari ke-{{ $json['Hari Ke'] }}. Sesi hari ke-{{ $json.hari_lain_aktif }} masih berjalan. Tutup sesi tersebut dulu (TUTUP PAKSA) sebelum memulai hari berikutnya."
+              "value": "=⚠️ Tidak bisa memulai hari ke-{{ $json['Hari Ke'] }}. Sesi hari ke-{{ $json.hari_lain_aktif }} masih berjalan. Sesi tersebut akan tertutup otomatis sesuai jadwalnya sebelum hari berikutnya bisa dimulai."
             }
           ]
         },
@@ -3356,7 +2854,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const text = $json.text_upper;\nconst parts = text.split(/\\s+/).filter(Boolean);\nlet tipe_media = parts[0];\nlet kode_produk = parts[1];\n\n// Keyword tambahan: \"IKAN <nomor>\" -> sama seperti FOTO <nomor>\n// \"IKAN <nomor> VIDEO\" -> sama seperti VIDEO <nomor>\nif (tipe_media === 'IKAN') {\n  if (parts[2] === 'VIDEO') {\n    tipe_media = 'VIDEO';\n  } else {\n    tipe_media = 'FOTO';\n  }\n}\n\nreturn { tipe_media, kode_produk, chat_id: $json.chat_id };"
+        "jsCode": "const text = $json.text_upper;\nconst parts = text.split(/\\s+/).filter(Boolean);\n\n// Urutan bisa dua arah: \"FOTO 1\" atau \"1 FOTO\"\nlet tipe_media, kode_produk;\nif (/^[0-9]+$/.test(parts[0])) {\n  kode_produk = parts[0];\n  tipe_media = parts[1];\n} else {\n  tipe_media = parts[0];\n  kode_produk = parts[1];\n}\n\nreturn { tipe_media, kode_produk, chat_id: $json.chat_id };"
       },
       "id": "ef202bf4-01e6-4b9b-8904-96bb0b6d14dd",
       "name": "Parser Command Media4",
@@ -3669,7 +3167,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const text = $json.text_upper;\nlet m = text.match(/^REKAP\\s+([0-9]+)$/);\nif (!m) m = text.match(/^([0-9]+)\\s+REKAP$/);\nreturn {\n  kode_produk: m ? m[1] : null,\n  chat_id: $json.chat_id\n};"
+        "jsCode": "const text = $json.text_upper;\nlet m = text.match(/^(?:REKAP|IKAN)\\s+([0-9]+)$/);\nif (!m) m = text.match(/^([0-9]+)\\s+(?:REKAP|IKAN)$/);\nreturn {\n  kode_produk: m ? m[1] : null,\n  chat_id: $json.chat_id\n};"
       },
       "id": "490ab172-0dfe-4900-bb6d-05dfb2c4a9df",
       "name": "Parser Rekap Kode",
@@ -4405,7 +3903,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const cmd = $('Parser Command Media4').first().json;\nconst item = $json;\nlet linkMedia = '';\nlet mediaKind = 'text'; // 'image' | 'document' | 'text'\n\nif (cmd.tipe_media === 'FOTO') {\n  linkMedia = item['Link Foto'];\n  mediaKind = 'image';\n} else if (cmd.tipe_media === 'VIDEO') {\n  linkMedia = item['Link Video'];\n  mediaKind = 'text';\n} else if (cmd.tipe_media === 'SERTIFIKAT') {\n  linkMedia = item['Link Sertifikat'];\n  mediaKind = 'document';\n} else if (cmd.tipe_media === 'LINK') {\n  linkMedia = item['Link Website'] || item['Link Foto'] || item['Link Video'];\n  mediaKind = 'text';\n} else {\n  linkMedia = item['Link Foto'];\n  mediaKind = 'image';\n}\n\nlet isDrive = false;\nlet fileId = '';\nlet finalUrl = linkMedia;\n\n// Google Drive butuh format link yang berbeda tergantung jenis file yang dikirim\nif (linkMedia && String(linkMedia).includes('drive.google.com')) {\n  isDrive = true;\n  const matchId = String(linkMedia).match(/[-\\w]{25,}/);\n  if (matchId && matchId[0]) {\n    fileId = matchId[0];\n    if (mediaKind === 'image') {\n      finalUrl = 'https://drive.google.com/uc?export=view&id=' + fileId;\n    } else if (mediaKind === 'document') {\n      finalUrl = 'https://drive.google.com/uc?export=download&id=' + fileId;\n    }\n  }\n}\n\nconst nama_produk = item['Nama Produk'] || `Produk ${cmd.kode_produk}`;\nconst obHarga = item['Harga Awal (OB)'] || '-';\nconst kbHarga = item['Kelipatan BID (KB)'] || '-';\nconst jumlahBid = parseInt(item['Jumlah Bid Masuk']) || 0;\nconst statusBidInfo = jumlahBid > 0\n  ? `Harga saat ini: ${item['Harga Tertinggi Saat Ini']}K oleh ${item['Penawar Tertinggi (Nama)'] || '-'}`\n  : `Belum OB (Harga awal OB: ${obHarga}rb)`;\n\nconst caption = `📌 *${cmd.tipe_media} PRODUK #${cmd.kode_produk}*\\n*Nama:* ${nama_produk}\\n🔥 OB: ${obHarga}rb | KB: ${kbHarga}rb\\n${statusBidInfo}`;\nconst namaFile = `${cmd.tipe_media}_${cmd.kode_produk}${mediaKind === 'document' ? '.pdf' : ''}`;\n\nif (!linkMedia) {\n  mediaKind = 'text';\n  finalUrl = 'Data/Link tidak tersedia.';\n}\n\nreturn {\n  kode_produk: cmd.kode_produk,\n  tipe_media: cmd.tipe_media,\n  nama_produk: nama_produk,\n  link: finalUrl,\n  media_kind: mediaKind,\n  is_drive: isDrive,\n  file_id: fileId,\n  caption: caption,\n  filename: namaFile,\n  chat_id: cmd.chat_id\n};"
+        "jsCode": "const cmd = $('Parser Command Media4').first().json;\nconst item = $json;\nlet linkMedia = '';\nlet mediaKind = 'text'; // 'image' | 'document' | 'text'\n\nif (cmd.tipe_media === 'FOTO') {\n  linkMedia = item['Link Foto'];\n  mediaKind = 'image';\n} else if (cmd.tipe_media === 'VIDEO') {\n  linkMedia = item['Link Video'];\n  mediaKind = 'video';\n} else if (cmd.tipe_media === 'SERTIFIKAT') {\n  linkMedia = item['Link Sertifikat'];\n  mediaKind = 'document';\n} else {\n  linkMedia = item['Link Foto'];\n  mediaKind = 'image';\n}\n\nlet isDrive = false;\nlet fileId = '';\nlet finalUrl = linkMedia;\n\n// Google Drive butuh format link yang berbeda tergantung jenis file yang dikirim\nif (linkMedia && String(linkMedia).includes('drive.google.com')) {\n  isDrive = true;\n  const matchId = String(linkMedia).match(/[-\\w]{25,}/);\n  if (matchId && matchId[0]) {\n    fileId = matchId[0];\n    if (mediaKind === 'image') {\n      finalUrl = 'https://drive.google.com/uc?export=view&id=' + fileId;\n    } else if (mediaKind === 'document' || mediaKind === 'video') {\n      finalUrl = 'https://drive.google.com/uc?export=download&id=' + fileId;\n    }\n  }\n}\n\nconst nama_produk = item['Nama Produk'] || `Produk ${cmd.kode_produk}`;\nconst obHarga = item['Harga Awal (OB)'] || '-';\nconst kbHarga = item['Kelipatan BID (KB)'] || '-';\nconst jumlahBid = parseInt(item['Jumlah Bid Masuk']) || 0;\nconst statusBidInfo = jumlahBid > 0\n  ? `Harga saat ini: ${item['Harga Tertinggi Saat Ini']}K oleh ${item['Penawar Tertinggi (Nama)'] || '-'}`\n  : `Belum OB (Harga awal OB: ${obHarga}rb)`;\n\nconst caption = `📌 *${cmd.tipe_media} PRODUK #${cmd.kode_produk}*\\n*Nama:* ${nama_produk}\\n🔥 OB: ${obHarga}rb | KB: ${kbHarga}rb\\n${statusBidInfo}`;\nconst namaFile = `${cmd.tipe_media}_${cmd.kode_produk}${mediaKind === 'document' ? '.pdf' : ''}`;\n\nif (!linkMedia) {\n  mediaKind = 'text';\n  finalUrl = 'Data/Link tidak tersedia.';\n}\n\nreturn {\n  kode_produk: cmd.kode_produk,\n  tipe_media: cmd.tipe_media,\n  nama_produk: nama_produk,\n  link: finalUrl,\n  media_kind: mediaKind,\n  is_drive: isDrive,\n  file_id: fileId,\n  caption: caption,\n  filename: namaFile,\n  chat_id: cmd.chat_id\n};"
       },
       "id": "31897ecf-5eeb-444b-ba1f-ee8e348bd4a3",
       "name": "Format Pesan Media4",
@@ -4900,7 +4398,7 @@
             },
             {
               "name": "text",
-              "value": "=PANDUAN TEKNIS AUTO-BID\nHi, {{ $('Normalize Pesan').first().json.sender_name }}\nLelang berlangsung di Group WA {{ $('Webhook').first().json.body.groupName || 'ini' }}\n\nPertanyaan chat admin di wa.me/{{ String($json[\"Admin IDs\"]).split(',')[0] }}\n\nKode Ikan 1 2 3 4 dan seterusnya\n- Bid per ikan :\n1 OB / OB 1 → buka bid ikan nomor 1 (HANYA SEKALI di awal)\n1 KB / KB 1 → naikkan bid ikan nomor 1 sesuai kelipatan (dipakai setelah OB)\n1 500 (Jumping BID 500K)\n1 KB 100 / KB 1 100 (BID terakhir + 100K)\n- untuk BID beberapa ikan diberi penambahan koma (,)  :\n1,2,3 OB / OB 1,2,3\n1,2 KB / KB 1,2\n1,2 500 (Jumping BID 500K)\n1,2 KB 100 / KB 1,2 100 (BID terakhir + 100K)\n- BID semua ikan :\nALL OB / OB ALL\nALL KB / KB ALL\n- Catatan: OB hanya untuk MEMBUKA bid ikan tsb. Setelah ada 1 bid masuk, OB tidak berlaku lagi dan wajib pakai KB.\n\nLihat Foto/Video/Sertifikat Ikan :\n- Ketik \"LINK & NOMOR IKAN\" contoh LINK 1\n- Ketik \"FOTO & NOMOR IKAN\" contoh FOTO 1\n- Ketik \"VIDEO & NOMOR IKAN \" contoh VIDEO 1\n- Ketik \"SERTIFIKAT & NOMOR IKAN\" contoh SERTIFIKAT 1\n\nBID direkap secara otomatis\n- Lihat rekap semua ikan ketik \"REKAP\"\n- Lihat history bid 1 ikan ketik \"REKAP <nomor>\" atau \"<nomor> REKAP\", contoh REKAP 1 atau 1 REKAP"
+              "value": "=PANDUAN TEKNIS AUTO-BID\nHi, {{ $('Normalize Pesan').first().json.sender_name }}\nLelang berlangsung di Group WA {{ $('Webhook').first().json.body.groupName || 'ini' }}\n\nPertanyaan chat admin di wa.me/{{ String($json[\"Admin IDs\"]).split(',')[0] }}\n\nKode Ikan 1 2 3 4 dan seterusnya\n- Bid per ikan :\n1 OB / OB 1 → buka bid ikan nomor 1 (HANYA SEKALI di awal)\n1 KB / KB 1 → naikkan bid ikan nomor 1 sesuai kelipatan (dipakai setelah OB)\n1 500 (Jumping BID 500K)\n1 KB 100 / KB 1 100 (BID terakhir + 100K)\n- untuk BID beberapa ikan diberi penambahan koma (,)  :\n1,2,3 OB / OB 1,2,3\n1,2 KB / KB 1,2\n1,2 500 (Jumping BID 500K)\n1,2 KB 100 / KB 1,2 100 (BID terakhir + 100K)\n- BID semua ikan :\nALL OB / OB ALL\nALL KB / KB ALL\n- Catatan: OB hanya untuk MEMBUKA bid ikan tsb. Setelah ada 1 bid masuk, OB tidak berlaku lagi dan wajib pakai KB.\n- BIN <nomor> / <nomor> BIN → beli langsung ikan tsb di harga BIN, contoh BIN 1 atau 1 BIN\n\nLihat Foto/Video/Sertifikat Ikan :\n- Ketik \"FOTO & NOMOR IKAN\" contoh FOTO 1 atau 1 FOTO\n- Ketik \"VIDEO & NOMOR IKAN\" contoh VIDEO 1 atau 1 VIDEO\n- Ketik \"SERTIFIKAT & NOMOR IKAN\" contoh SERTIFIKAT 1 atau 1 SERTIFIKAT\n\nBID direkap secara otomatis\n- Lihat rekap semua ikan ketik \"REKAP\"\n- Lihat history bid 1 ikan ketik \"REKAP <nomor>\" atau \"IKAN <nomor>\" (bisa dibalik jadi \"<nomor> REKAP\"/\"<nomor> IKAN\"), contoh REKAP 1 atau 1 IKAN\n\nCatatan tambahan:\n- Saat sesi memasuki masa EXTRA TIME (menjelang tutup), perintah OB dan BIN dinonaktifkan sementara -- gunakan KB."
             }
           ]
         },
@@ -6042,7 +5540,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const item = $input.item.json;\nlet text = item.text_upper;\n\n// Normalisasi: kalau ada koma langsung setelah OB/KB tanpa spasi (mis. \"OB,1,2,3\"),\n// ubah jadi spasi supaya diproses sama seperti \"OB 1,2,3\"\ntext = text.replace(/^(OB|KB)\\s*,\\s*/, '$1 ');\n\nconst parts = text.split(/\\s+/);\nconst firstPart = parts[0];\n\nlet daftarKode = [];\nlet tipe_bid = '';\nlet nominal_custom = null;\n\nif (firstPart === 'BIN') {\n  const sisa = text.replace(/^BIN\\s+/, '');\n  daftarKode = sisa.split(',').map(k => k.trim()).filter(k => k.length > 0);\n  tipe_bid = 'BIN';\n} else if (firstPart === 'OB' || firstPart === 'KB') {\n  // Format command-first: \"OB 1\", \"KB 1,2,3\", \"KB 1 100\", \"OB ALL\", \"KB ALL\"\n  tipe_bid = firstPart;\n  const sisa = parts.slice(1);\n  if (sisa[0] === 'ALL') {\n    daftarKode = ['ALL'];\n    nominal_custom = sisa[1] ? parseInt(sisa[1]) : null;\n  } else {\n    daftarKode = (sisa[0] || '').split(',').map(k => k.trim()).filter(k => k.length > 0);\n    nominal_custom = sisa[1] ? parseInt(sisa[1]) : null;\n  }\n} else if (firstPart === 'ALL') {\n  daftarKode = ['ALL'];\n  const tipeRaw = parts[1];\n  if (tipeRaw === 'OB' || tipeRaw === 'KB') {\n    tipe_bid = tipeRaw;\n  } else {\n    tipe_bid = 'NOMINAL';\n    nominal_custom = parseInt(tipeRaw) || 0;\n  }\n} else {\n  daftarKode = firstPart.split(',').map(k => k.trim()).filter(k => k.length > 0);\n  const tipeRaw = parts[1];\n  const extra = parts[2] || null;\n  if (tipeRaw === 'OB' || tipeRaw === 'KB') {\n    tipe_bid = tipeRaw;\n    nominal_custom = extra ? parseInt(extra) : null;\n  } else {\n    tipe_bid = 'NOMINAL';\n    nominal_custom = parseInt(tipeRaw) || 0;\n  }\n}\n\nreturn {\n  daftar_kode: daftarKode,\n  tipe_bid,\n  nominal_custom,\n  keyword_asli: item.text_original,\n  penawar_id: item.sender_id,\n  penawar_nama: item.sender_name,\n  chat_id: item.chat_id\n};"
+        "jsCode": "const item = $input.item.json;\nlet text = item.text_upper;\n\n// Normalisasi: kalau ada koma langsung setelah OB/KB tanpa spasi (mis. \"OB,1,2,3\"),\n// ubah jadi spasi supaya diproses sama seperti \"OB 1,2,3\"\ntext = text.replace(/^(OB|KB)\\s*,\\s*/, '$1 ');\n\nconst parts = text.split(/\\s+/);\nconst firstPart = parts[0];\n\nlet daftarKode = [];\nlet tipe_bid = '';\nlet nominal_custom = null;\n\nif (firstPart === 'BIN') {\n  const sisa = text.replace(/^BIN\\s+/, '');\n  daftarKode = sisa.split(',').map(k => k.trim()).filter(k => k.length > 0);\n  tipe_bid = 'BIN';\n} else if (firstPart === 'OB' || firstPart === 'KB') {\n  // Format command-first: \"OB 1\", \"KB 1,2,3\", \"KB 1 100\", \"OB ALL\", \"KB ALL\"\n  tipe_bid = firstPart;\n  const sisa = parts.slice(1);\n  if (sisa[0] === 'ALL') {\n    daftarKode = ['ALL'];\n    nominal_custom = sisa[1] ? parseInt(sisa[1]) : null;\n  } else {\n    daftarKode = (sisa[0] || '').split(',').map(k => k.trim()).filter(k => k.length > 0);\n    nominal_custom = sisa[1] ? parseInt(sisa[1]) : null;\n  }\n} else if (firstPart === 'ALL') {\n  daftarKode = ['ALL'];\n  const tipeRaw = parts[1];\n  if (tipeRaw === 'OB' || tipeRaw === 'KB') {\n    tipe_bid = tipeRaw;\n  } else {\n    tipe_bid = 'NOMINAL';\n    nominal_custom = parseInt(tipeRaw) || 0;\n  }\n} else {\n  daftarKode = firstPart.split(',').map(k => k.trim()).filter(k => k.length > 0);\n  const tipeRaw = parts[1];\n  const extra = parts[2] || null;\n  if (tipeRaw === 'OB' || tipeRaw === 'KB') {\n    tipe_bid = tipeRaw;\n    nominal_custom = extra ? parseInt(extra) : null;\n  } else if (tipeRaw === 'BIN') {\n    tipe_bid = 'BIN';\n  } else {\n    tipe_bid = 'NOMINAL';\n    nominal_custom = parseInt(tipeRaw) || 0;\n  }\n}\n\nreturn {\n  daftar_kode: daftarKode,\n  tipe_bid,\n  nominal_custom,\n  keyword_asli: item.text_original,\n  penawar_id: item.sender_id,\n  penawar_nama: item.sender_name,\n  chat_id: item.chat_id\n};"
       },
       "id": "e6500e3d-3325-4517-b42f-85efa9cda505",
       "name": "Parser Bid",
@@ -6055,7 +5553,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const parser = $('Parser Bid').first().json;\nconst allProduk = $input.all().map(i => i.json);\n\nlet daftarKode = parser.daftar_kode;\n\nif (daftarKode.length === 1 && daftarKode[0] === 'ALL') {\n  daftarKode = allProduk\n    .filter(p => (p['Status'] || '').trim() === 'Open')\n    .map(p => String(p['Kode Produk']));\n}\n\nconst pengaturanAktif = $('Pilih Sesi Aktif (Bid)').first().json;\nconst binDinonaktifkan = String(pengaturanAktif['BIN Dinonaktifkan'] || '').trim().toUpperCase() === 'TRUE';\n\nconst hasil = [];\n\nfor (const kode of daftarKode) {\n  const produk = allProduk.find(p => String(p['Kode Produk']) === String(kode));\n  const base = {\n    kode_produk: kode,\n    keyword_asli: parser.keyword_asli,\n    penawar_id: parser.penawar_id,\n    penawar_nama: parser.penawar_nama,\n    chat_id: parser.chat_id,\n    tipe_bid: parser.tipe_bid\n  };\n\n  if (!produk) {\n    hasil.push({ ...base, status_validasi: 'Tidak Sah',\n      alasan: `Kode produk ${kode} tidak ditemukan.`,\n      nominal_akhir: null, harga_sebelumnya: null, is_bin: false });\n    continue;\n  }\n\n  if ((produk['Status'] || '').trim() !== 'Open') {\n    hasil.push({ ...base, status_validasi: 'Tidak Sah',\n      alasan: `Produk ${kode} berstatus \"${produk['Status']}\", tidak menerima tawaran.`,\n      nominal_akhir: null, harga_sebelumnya: parseInt(produk['Harga Tertinggi Saat Ini']) || 0, is_bin: false });\n    continue;\n  }\n\n  const hargaAwal = parseInt(produk['Harga Awal (OB)']) || 0;\n  const kelipatanDefault = parseInt(produk['Kelipatan BID (KB)']) || 0;\n  const hargaSaatIni = parseInt(produk['Harga Tertinggi Saat Ini']) || 0;\n  const hargaBIN = parseInt(produk['Harga Tertinggi (BIN)']) || 0;\n  const penawarTertinggiId = String(produk['Penawar Tertinggi (No WA)'] || '');\n  const jumlahBidMasuk = parseInt(produk['Jumlah Bid Masuk']) || 0;\n\n  let nominalAkhir = 0;\n  let is_bin = false;\n\n  if (parser.tipe_bid === 'BIN') {\n    if (binDinonaktifkan) {\n        hasil.push({ ...base, status_validasi: 'Tidak Sah',\n          alasan: `Produk ${kode} sedang memasuki masa EXTRA TIME, fitur BIN dinonaktifkan. Gunakan KB untuk menawar.`,\n          nominal_akhir: null, harga_sebelumnya: hargaSaatIni, is_bin: false });\n        continue;\n    }\n    if (hargaBIN <= 0) {\n        hasil.push({ ...base, status_validasi: 'Tidak Sah',\n          alasan: `Produk ${kode} tidak memiliki opsi BIN.`,\n          nominal_akhir: null, harga_sebelumnya: hargaSaatIni, is_bin: false });\n        continue;\n    }\n    if (hargaSaatIni >= hargaBIN) {\n        hasil.push({ ...base, status_validasi: 'Tidak Sah',\n          alasan: `Produk ${kode} sudah mencapai atau melewati harga BIN.`,\n          nominal_akhir: null, harga_sebelumnya: hargaSaatIni, is_bin: false });\n        continue;\n    }\n    nominalAkhir = hargaBIN;\n    is_bin = true;\n  } else if (parser.tipe_bid === 'OB') {\n    // OB hanya boleh dipakai SEKALI untuk membuka bid ikan ini.\n    // Setelah ada bid pertama, OB ditolak dan harus pakai KB.\n    if (jumlahBidMasuk > 0 || hargaSaatIni > 0) {\n        const namaPembuka = produk['Penawar Tertinggi (Nama)'] || '-';\n        hasil.push({ ...base, status_validasi: 'Tidak Sah',\n          alasan: `Produk ${kode} sudah dibuka (OB) oleh ${namaPembuka} di harga ${hargaSaatIni}K. OB hanya berlaku sekali di awal, gunakan KB untuk menawar selanjutnya.`,\n          nominal_akhir: null, harga_sebelumnya: hargaSaatIni, is_bin: false });\n        continue;\n    }\n    nominalAkhir = hargaAwal;\n  } else if (parser.tipe_bid === 'KB') {\n    if (jumlahBidMasuk === 0 && hargaSaatIni === 0) {\n        // Belum pernah di-OB sama sekali: KB dianggap OB + KB (sesuai aturan lama)\n        nominalAkhir = hargaAwal + kelipatanDefault;\n    } else {\n        const acuan = hargaSaatIni > 0 ? hargaSaatIni : hargaAwal;\n        const kelipatan = (parser.nominal_custom && parser.nominal_custom > 0) ? parser.nominal_custom : kelipatanDefault;\n        nominalAkhir = acuan + kelipatan;\n    }\n  } else {\n    nominalAkhir = parser.nominal_custom || 0;\n  }\n\n  if (hargaSaatIni > 0 && penawarTertinggiId === parser.penawar_id && !is_bin) {\n    hasil.push({ ...base, status_validasi: 'Tidak Sah',\n      alasan: `Anda sudah jadi penawar tertinggi di produk ${kode}, tidak bisa menaikkan tawaran sendiri.`,\n      nominal_akhir: nominalAkhir, harga_sebelumnya: hargaSaatIni, is_bin: false });\n    continue;\n  }\n\n  if (hargaSaatIni > 0 && nominalAkhir <= hargaSaatIni && !is_bin) {\n    hasil.push({ ...base, status_validasi: 'Tidak Sah',\n      alasan: `Penawaran Anda (${nominalAkhir}K) harus lebih tinggi dari harga saat ini (${hargaSaatIni}K) utk produk ${kode}.`,\n      nominal_akhir: nominalAkhir, harga_sebelumnya: hargaSaatIni, is_bin: false });\n    continue;\n  }\n\n  hasil.push({ ...base, status_validasi: 'Sah', alasan: is_bin ? 'BIN diterima.' : 'Penawaran diterima.',\n    nominal_akhir: nominalAkhir, harga_sebelumnya: hargaSaatIni,\n    jumlah_bid_baru: jumlahBidMasuk + 1,\n    is_bin: is_bin, status_bid_db: is_bin ? 'Sah (BIN)' : 'Sah' });\n}\n\nif (hasil.length === 0) {\n  return [{ json: { kode_produk: null, status_validasi: 'Tidak Sah',\n    alasan: 'Tidak ada produk berstatus Open untuk ditawar saat ini.',\n    chat_id: parser.chat_id, nominal_akhir: null, harga_sebelumnya: null,\n    keyword_asli: parser.keyword_asli, is_bin: false, tipe_bid: parser.tipe_bid } }];\n}\n\nreturn hasil.map(h => ({ json: h }));"
+        "jsCode": "const parser = $('Parser Bid').first().json;\nconst allProduk = $input.all().map(i => i.json);\n\nlet daftarKode = parser.daftar_kode;\n\nif (daftarKode.length === 1 && daftarKode[0] === 'ALL') {\n  daftarKode = allProduk\n    .filter(p => (p['Status'] || '').trim() === 'Open')\n    .map(p => String(p['Kode Produk']));\n}\n\nconst pengaturanAktif = $('Pilih Sesi Aktif (Bid)').first().json;\nconst binDinonaktifkan = String(pengaturanAktif['BIN Dinonaktifkan'] || '').trim().toUpperCase() === 'TRUE';\n\nconst hasil = [];\n\nfor (const kode of daftarKode) {\n  const produk = allProduk.find(p => String(p['Kode Produk']) === String(kode));\n  const base = {\n    kode_produk: kode,\n    keyword_asli: parser.keyword_asli,\n    penawar_id: parser.penawar_id,\n    penawar_nama: parser.penawar_nama,\n    chat_id: parser.chat_id,\n    tipe_bid: parser.tipe_bid\n  };\n\n  if (!produk) {\n    hasil.push({ ...base, status_validasi: 'Tidak Sah',\n      alasan: `Kode produk ${kode} tidak ditemukan.`,\n      nominal_akhir: null, harga_sebelumnya: null, is_bin: false });\n    continue;\n  }\n\n  if ((produk['Status'] || '').trim() !== 'Open') {\n    hasil.push({ ...base, status_validasi: 'Tidak Sah',\n      alasan: `Produk ${kode} berstatus \"${produk['Status']}\", tidak menerima tawaran.`,\n      nominal_akhir: null, harga_sebelumnya: parseInt(produk['Harga Tertinggi Saat Ini']) || 0, is_bin: false });\n    continue;\n  }\n\n  const hargaAwal = parseInt(produk['Harga Awal (OB)']) || 0;\n  const kelipatanDefault = parseInt(produk['Kelipatan BID (KB)']) || 0;\n  const hargaSaatIni = parseInt(produk['Harga Tertinggi Saat Ini']) || 0;\n  const hargaBIN = parseInt(produk['Harga Tertinggi (BIN)']) || 0;\n  const penawarTertinggiId = String(produk['Penawar Tertinggi (No WA)'] || '');\n  const jumlahBidMasuk = parseInt(produk['Jumlah Bid Masuk']) || 0;\n\n  let nominalAkhir = 0;\n  let is_bin = false;\n\n  if (parser.tipe_bid === 'BIN') {\n    if (binDinonaktifkan) {\n        hasil.push({ ...base, status_validasi: 'Tidak Sah',\n          alasan: `Produk ${kode} sedang memasuki masa EXTRA TIME, fitur BIN dinonaktifkan. Gunakan KB untuk menawar.`,\n          nominal_akhir: null, harga_sebelumnya: hargaSaatIni, is_bin: false });\n        continue;\n    }\n    if (hargaBIN <= 0) {\n        hasil.push({ ...base, status_validasi: 'Tidak Sah',\n          alasan: `Produk ${kode} tidak memiliki opsi BIN.`,\n          nominal_akhir: null, harga_sebelumnya: hargaSaatIni, is_bin: false });\n        continue;\n    }\n    if (hargaSaatIni >= hargaBIN) {\n        hasil.push({ ...base, status_validasi: 'Tidak Sah',\n          alasan: `Produk ${kode} sudah mencapai atau melewati harga BIN.`,\n          nominal_akhir: null, harga_sebelumnya: hargaSaatIni, is_bin: false });\n        continue;\n    }\n    nominalAkhir = hargaBIN;\n    is_bin = true;\n  } else if (parser.tipe_bid === 'OB') {\n    if (binDinonaktifkan) {\n        hasil.push({ ...base, status_validasi: 'Tidak Sah',\n          alasan: `Produk ${kode} sedang memasuki masa EXTRA TIME, OB tidak berlaku lagi. Gunakan KB untuk menawar.`,\n          nominal_akhir: null, harga_sebelumnya: hargaSaatIni, is_bin: false });\n        continue;\n    }\n    // OB hanya boleh dipakai SEKALI untuk membuka bid ikan ini.\n    // Setelah ada bid pertama, OB ditolak dan harus pakai KB.\n    if (jumlahBidMasuk > 0 || hargaSaatIni > 0) {\n        const namaPembuka = produk['Penawar Tertinggi (Nama)'] || '-';\n        hasil.push({ ...base, status_validasi: 'Tidak Sah',\n          alasan: `Produk ${kode} sudah dibuka (OB) oleh ${namaPembuka} di harga ${hargaSaatIni}K. OB hanya berlaku sekali di awal, gunakan KB untuk menawar selanjutnya.`,\n          nominal_akhir: null, harga_sebelumnya: hargaSaatIni, is_bin: false });\n        continue;\n    }\n    nominalAkhir = hargaAwal;\n  } else if (parser.tipe_bid === 'KB') {\n    if (jumlahBidMasuk === 0 && hargaSaatIni === 0) {\n        // Belum pernah di-OB sama sekali: KB dianggap OB + KB (sesuai aturan lama)\n        nominalAkhir = hargaAwal + kelipatanDefault;\n    } else {\n        const acuan = hargaSaatIni > 0 ? hargaSaatIni : hargaAwal;\n        const kelipatan = (parser.nominal_custom && parser.nominal_custom > 0) ? parser.nominal_custom : kelipatanDefault;\n        nominalAkhir = acuan + kelipatan;\n    }\n  } else {\n    nominalAkhir = parser.nominal_custom || 0;\n    if (kelipatanDefault > 0 && nominalAkhir % kelipatanDefault !== 0) {\n        hasil.push({ ...base, status_validasi: 'Tidak Sah',\n          alasan: `Jumping bid produk ${kode} harus kelipatan dari KB (${kelipatanDefault}K). Contoh kelipatan valid: ${kelipatanDefault}K, ${kelipatanDefault * 2}K, ${kelipatanDefault * 3}K, dst.`,\n          nominal_akhir: nominalAkhir, harga_sebelumnya: hargaSaatIni, is_bin: false });\n        continue;\n    }\n  }\n\n  if (hargaSaatIni > 0 && penawarTertinggiId === parser.penawar_id && !is_bin) {\n    hasil.push({ ...base, status_validasi: 'Tidak Sah',\n      alasan: `Anda sudah jadi penawar tertinggi di produk ${kode}, tidak bisa menaikkan tawaran sendiri.`,\n      nominal_akhir: nominalAkhir, harga_sebelumnya: hargaSaatIni, is_bin: false });\n    continue;\n  }\n\n  if (hargaSaatIni > 0 && nominalAkhir <= hargaSaatIni && !is_bin) {\n    hasil.push({ ...base, status_validasi: 'Tidak Sah',\n      alasan: `Penawaran Anda (${nominalAkhir}K) harus lebih tinggi dari harga saat ini (${hargaSaatIni}K) utk produk ${kode}.`,\n      nominal_akhir: nominalAkhir, harga_sebelumnya: hargaSaatIni, is_bin: false });\n    continue;\n  }\n\n  hasil.push({ ...base, status_validasi: 'Sah', alasan: is_bin ? 'BIN diterima.' : 'Penawaran diterima.',\n    nominal_akhir: nominalAkhir, harga_sebelumnya: hargaSaatIni,\n    jumlah_bid_baru: jumlahBidMasuk + 1,\n    is_bin: is_bin, status_bid_db: is_bin ? 'Sah (BIN)' : 'Sah' });\n}\n\nif (hasil.length === 0) {\n  return [{ json: { kode_produk: null, status_validasi: 'Tidak Sah',\n    alasan: 'Tidak ada produk berstatus Open untuk ditawar saat ini.',\n    chat_id: parser.chat_id, nominal_akhir: null, harga_sebelumnya: null,\n    keyword_asli: parser.keyword_asli, is_bin: false, tipe_bid: parser.tipe_bid } }];\n}\n\nreturn hasil.map(h => ({ json: h }));"
       },
       "id": "02bd2ab4-2844-4152-b043-6718b6efc689",
       "name": "Proses Bid",
@@ -6733,6 +6231,28 @@
                     "id": "e377fefd-1a40-4852-8bb9-19d888086058",
                     "leftValue": "={{ $json.media_kind }}",
                     "rightValue": "document",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "rjm-video",
+                    "leftValue": "={{ $json.media_kind }}",
+                    "rightValue": "video",
                     "operator": {
                       "type": "string",
                       "operation": "equals"
@@ -7769,7 +7289,7 @@
     },
     {
       "parameters": {
-        "jsCode": "function parseTanggalFleksibel(raw) {\n  if (!raw) return null;\n  const str = String(raw).trim();\n  if (/^\\d{4}-\\d{2}-\\d{2}T/.test(str)) {\n    const d = new Date(str);\n    if (!isNaN(d.getTime())) return d;\n  }\n  let m = str.match(/^(\\d{4})-(\\d{1,2})-(\\d{1,2})[ T](\\d{1,2}):(\\d{2})(?::(\\d{2}))?/);\n  if (m) {\n    const [, y, mo, d, h, mi, s] = m;\n    return new Date(Date.UTC(+y, +mo - 1, +d, +h - 7, +mi, +(s || 0)));\n  }\n  m = str.match(/^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})[ T](\\d{1,2}):(\\d{2})(?::(\\d{2}))?/);\n  if (m) {\n    const [, d, mo, y, h, mi, s] = m;\n    return new Date(Date.UTC(+y, +mo - 1, +d, +h - 7, +mi, +(s || 0)));\n  }\n  const fallback = new Date(str);\n  return isNaN(fallback.getTime()) ? null : fallback;\n}\n\nconst base = $json;\nconst mulai = parseTanggalFleksibel(base['Waktu Selesai']);\nconst now = new Date();\n\n// Jaga-jaga terakhir: kalau ternyata belum benar-benar sampai Waktu Mulai (misal\n// akibat eksekusi tumpang tindih), tunggu sisanya di sini -- jangan biarkan status\n// \"Berjalan\" ke-set lebih awal dari waktu sebenarnya.\nlet sisaDetik = mulai ? Math.ceil((mulai.getTime() - now.getTime()) / 1000) : 0;\nif (sisaDetik < 0) sisaDetik = 0;\n\nreturn { json: { ...base, sisa_detik_sinkron: sisaDetik } };"
+        "jsCode": "function parseTanggalFleksibel(raw) {\n  if (!raw) return null;\n  const str = String(raw).trim();\n  if (/^\\d{4}-\\d{2}-\\d{2}T/.test(str)) {\n    const d = new Date(str);\n    if (!isNaN(d.getTime())) return d;\n  }\n  let m = str.match(/^(\\d{4})-(\\d{1,2})-(\\d{1,2})[ T](\\d{1,2}):(\\d{2})(?::(\\d{2}))?/);\n  if (m) {\n    const [, y, mo, d, h, mi, s] = m;\n    return new Date(Date.UTC(+y, +mo - 1, +d, +h - 7, +mi, +(s || 0)));\n  }\n  m = str.match(/^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})[ T](\\d{1,2}):(\\d{2})(?::(\\d{2}))?/);\n  if (m) {\n    const [, d, mo, y, h, mi, s] = m;\n    return new Date(Date.UTC(+y, +mo - 1, +d, +h - 7, +mi, +(s || 0)));\n  }\n  const fallback = new Date(str);\n  return isNaN(fallback.getTime()) ? null : fallback;\n}\n\nconst base = $('Siapkan Data Tutup Final').first().json;\nconst freshRows = $input.all().map(i => i.json);\nconst freshRow = freshRows.find(r => String(r['Session ID']).trim() === String(base['Session ID']).trim());\n\n// Bid di detik-detik akhir bisa memperpanjang \"Waktu Selesai\" SAAT eksekusi loop\n// countdown ini sedang menunggu (Wait Menuju Detik Akhir). Snapshot lama di atas\n// tidak tahu soal itu, jadi di sini kita baca ulang sheet Pengaturan secara live:\n// kalau baris sudah tidak ada / sesi sudah bukan \"Berjalan\" lagi / \"Waktu Selesai\"\n// ternyata sudah berubah (berarti sempat diperpanjang extra time), batalkan\n// penutupan di eksekusi ini -- biarkan scheduler membuat eksekusi baru untuk\n// waktu tutup yang sudah diperbarui itu.\nif (!freshRow) return [];\nif (String(freshRow['Status Lelang'] || '').trim() !== 'Berjalan') return [];\nif (String(freshRow['Waktu Selesai'] || '').trim() !== String(base['Waktu Selesai'] || '').trim()) return [];\n\nconst selesai = parseTanggalFleksibel(freshRow['Waktu Selesai']);\nconst now = new Date();\n\nlet sisaDetik = selesai ? Math.ceil((selesai.getTime() - now.getTime()) / 1000) : 0;\nif (sisaDetik < 0) sisaDetik = 0;\n\nreturn { json: { ...base, sisa_detik_sinkron: sisaDetik } };"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -8093,7 +7613,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// ANTI-SNIPE / EXTRA TIME\n// Kalau ada bid SAH yang masuk mendekati waktu tutup sesi, waktu tutup\n// otomatis diperpanjang supaya tidak ada yang \"nyelonong\" di detik akhir.\n\nconst pengaturan = $('Pilih Sesi Aktif (Bid)').first().json;\n\nfunction parseWIB(dateStr) {\n  if (!dateStr) return null;\n  const str = String(dateStr).trim();\n\n  // Kasus A: n8n/Google Sheets sudah mengirim ISO date (kolom sempat kebaca sbg tipe Date)\n  if (/^\\d{4}-\\d{2}-\\d{2}T/.test(str)) {\n    const d = new Date(str);\n    if (!isNaN(d.getTime())) return d;\n  }\n\n  // Kasus B: format \"YYYY-MM-DD HH:mm:ss\" (format standar yang diharapkan)\n  let m = str.match(/^(\\d{4})-(\\d{1,2})-(\\d{1,2})[ T](\\d{1,2}):(\\d{2})(?::(\\d{2}))?/);\n  if (m) {\n    const [, y, mo, d, h, mi, s] = m;\n    return new Date(Date.UTC(+y, +mo - 1, +d, +h - 7, +mi, +(s || 0)));\n  }\n\n  // Kasus C: format \"DD/MM/YYYY HH:mm:ss\" (tampilan lokal ID -- muncul kalau sel sempat\n  // ke-format Google Sheets sebagai Date lalu dibaca sebagai string tampilan). Tanpa ini,\n  // string seperti \"06/09/2026 20:41:00\" akan salah baca total (bulan/hari tertukar dan\n  // dianggap tahun 1900-an) tanpa error apapun.\n  m = str.match(/^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})[ T](\\d{1,2}):(\\d{2})(?::(\\d{2}))?/);\n  if (m) {\n    const [, d, mo, y, h, mi, s] = m;\n    return new Date(Date.UTC(+y, +mo - 1, +d, +h - 7, +mi, +(s || 0)));\n  }\n\n  // Fallback terakhir, biar tidak diam-diam gagal total\n  const fallback = new Date(str);\n  return isNaN(fallback.getTime()) ? null : fallback;\n}\n\nfunction fmt(d) {\n  // d adalah instant UTC yang valid (real time). Server n8n bisa berjalan di timezone\n  // apa saja (sering UTC), jadi JANGAN pakai getHours()/getFullYear() (ikut timezone lokal\n  // server) -- itu penyebab bug \"waktu selesai\" meleset -7 jam (mis. 11:45 tertulis 04:45).\n  // Geser +7 jam dulu lalu baca pakai getter UTC supaya hasilnya konsisten sebagai jam WIB\n  // di server manapun workflow ini dijalankan.\n  const wib = new Date(d.getTime() + 7 * 60 * 60 * 1000);\n  const pad = n => String(n).padStart(2, '0');\n  return `${wib.getUTCFullYear()}-${pad(wib.getUTCMonth() + 1)}-${pad(wib.getUTCDate())} ${pad(wib.getUTCHours())}:${pad(wib.getUTCMinutes())}:${pad(wib.getUTCSeconds())}`;\n}\n\nconst now = new Date();\nconst selesaiLama = parseWIB(pengaturan['Waktu Selesai']);\n\n// Pengaturan opsional di sheet \"Pengaturan\" (boleh dikosongkan, akan pakai default):\n// - \"Extra Time Aktif\"            -> isi TIDAK/OFF untuk mematikan fitur ini per sesi\n// - \"Ambang Extra Time (menit)\"   -> jendela anti-snipe, default 5 menit sebelum tutup\n// - \"Tambahan Extra Time (menit)\" -> berapa menit ditambahkan tiap kena snipe, default 5 menit\nconst statusFitur = String(pengaturan['Extra Time Aktif'] ?? '').trim().toUpperCase();\nconst fiturAktif = !['TIDAK', 'OFF', 'NONAKTIF', 'FALSE'].includes(statusFitur);\n\nconst ambangMenit = parseInt(pengaturan['Ambang Extra Time (menit)']) || 10;\nconst tambahanMenit = parseInt(pengaturan['Tambahan Extra Time (menit)']) || 5;\n\nlet triggered = false;\nlet waktuSelesaiBaru = null;\nlet sisaMenit = null;\n\nif (fiturAktif && selesaiLama) {\n  sisaMenit = (selesaiLama.getTime() - now.getTime()) / 60000;\n  if (sisaMenit > 0 && sisaMenit <= ambangMenit) {\n    triggered = true;\n    const target = new Date(now.getTime() + tambahanMenit * 60000);\n    // Jangan pernah mempersingkat waktu tutup yang sudah ada\n    waktuSelesaiBaru = target > selesaiLama ? target : selesaiLama;\n  }\n}\n\nreturn {\n  ...$json,\n  extra_time_triggered: triggered,\n  session_id: pengaturan['Session ID'],\n  waktu_selesai_lama: pengaturan['Waktu Selesai'],\n  waktu_selesai_baru: waktuSelesaiBaru ? fmt(waktuSelesaiBaru) : null,\n  menit_tambahan: tambahanMenit,\n  ambang_menit: ambangMenit,\n  sisa_menit_sebelum_bid: sisaMenit\n};"
+        "jsCode": "// ANTI-SNIPE / EXTRA TIME\n// Kalau ada bid SAH yang masuk mendekati waktu tutup sesi, waktu tutup\n// otomatis diperpanjang supaya tidak ada yang \"nyelonong\" di detik akhir.\n\nconst pengaturan = $('Pilih Sesi Aktif (Bid)').first().json;\n\nfunction parseWIB(dateStr) {\n  if (!dateStr) return null;\n  const str = String(dateStr).trim();\n\n  // Kasus A: n8n/Google Sheets sudah mengirim ISO date (kolom sempat kebaca sbg tipe Date)\n  if (/^\\d{4}-\\d{2}-\\d{2}T/.test(str)) {\n    const d = new Date(str);\n    if (!isNaN(d.getTime())) return d;\n  }\n\n  // Kasus B: format \"YYYY-MM-DD HH:mm:ss\" (format standar yang diharapkan)\n  let m = str.match(/^(\\d{4})-(\\d{1,2})-(\\d{1,2})[ T](\\d{1,2}):(\\d{2})(?::(\\d{2}))?/);\n  if (m) {\n    const [, y, mo, d, h, mi, s] = m;\n    return new Date(Date.UTC(+y, +mo - 1, +d, +h - 7, +mi, +(s || 0)));\n  }\n\n  // Kasus C: format \"DD/MM/YYYY HH:mm:ss\" (tampilan lokal ID -- muncul kalau sel sempat\n  // ke-format Google Sheets sebagai Date lalu dibaca sebagai string tampilan). Tanpa ini,\n  // string seperti \"06/09/2026 20:41:00\" akan salah baca total (bulan/hari tertukar dan\n  // dianggap tahun 1900-an) tanpa error apapun.\n  m = str.match(/^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})[ T](\\d{1,2}):(\\d{2})(?::(\\d{2}))?/);\n  if (m) {\n    const [, d, mo, y, h, mi, s] = m;\n    return new Date(Date.UTC(+y, +mo - 1, +d, +h - 7, +mi, +(s || 0)));\n  }\n\n  // Fallback terakhir, biar tidak diam-diam gagal total\n  const fallback = new Date(str);\n  return isNaN(fallback.getTime()) ? null : fallback;\n}\n\nfunction fmt(d) {\n  // d adalah instant UTC yang valid (real time). Server n8n bisa berjalan di timezone\n  // apa saja (sering UTC), jadi JANGAN pakai getHours()/getFullYear() (ikut timezone lokal\n  // server) -- itu penyebab bug \"waktu selesai\" meleset -7 jam (mis. 11:45 tertulis 04:45).\n  // Geser +7 jam dulu lalu baca pakai getter UTC supaya hasilnya konsisten sebagai jam WIB\n  // di server manapun workflow ini dijalankan.\n  const wib = new Date(d.getTime() + 7 * 60 * 60 * 1000);\n  const pad = n => String(n).padStart(2, '0');\n  return `${wib.getUTCFullYear()}-${pad(wib.getUTCMonth() + 1)}-${pad(wib.getUTCDate())} ${pad(wib.getUTCHours())}:${pad(wib.getUTCMinutes())}:${pad(wib.getUTCSeconds())}`;\n}\n\nconst now = new Date();\nconst selesaiLama = parseWIB(pengaturan['Waktu Selesai']);\n\n// Pengaturan opsional di sheet \"Pengaturan\" (boleh dikosongkan, akan pakai default):\n// - \"Extra Time Aktif\"            -> isi TIDAK/OFF untuk mematikan fitur ini per sesi\n// - \"Tambahan Extra Time (menit)\" -> berapa menit ditambahkan tiap kena snipe, di-setting di awal\n//   setup lelang (default 10 menit kalau kosong)\n// Jendela deteksi snipe SENGAJA fix 10 DETIK terakhir (bukan menit) -- kalau ada bid sah\n// masuk dalam 10 detik terakhir, waktu tutup otomatis diperpanjang; kalau tidak ada, sesi\n// ditutup normal oleh jalur Cek Waktu Habis1.\nconst AMBANG_EXTRA_DETIK = 10;\n\nconst statusFitur = String(pengaturan['Extra Time Aktif'] ?? '').trim().toUpperCase();\nconst fiturAktif = !['TIDAK', 'OFF', 'NONAKTIF', 'FALSE'].includes(statusFitur);\n\nconst tambahanMenit = parseInt(pengaturan['Tambahan Extra Time (menit)']) || 10;\n\nlet triggered = false;\nlet waktuSelesaiBaru = null;\nlet sisaDetik = null;\n\nif (fiturAktif && selesaiLama) {\n  sisaDetik = (selesaiLama.getTime() - now.getTime()) / 1000;\n  if (sisaDetik > 0 && sisaDetik <= AMBANG_EXTRA_DETIK) {\n    triggered = true;\n    const target = new Date(now.getTime() + tambahanMenit * 60000);\n    // Jangan pernah mempersingkat waktu tutup yang sudah ada\n    waktuSelesaiBaru = target > selesaiLama ? target : selesaiLama;\n  }\n}\n\nreturn {\n  ...$json,\n  extra_time_triggered: triggered,\n  session_id: pengaturan['Session ID'],\n  waktu_selesai_lama: pengaturan['Waktu Selesai'],\n  waktu_selesai_baru: waktuSelesaiBaru ? fmt(waktuSelesaiBaru) : null,\n  menit_tambahan: tambahanMenit,\n  ambang_detik: AMBANG_EXTRA_DETIK,\n  sisa_detik_sebelum_bid: sisaDetik\n};"
       },
       "id": "5db85c02-47e1-4e6a-9496-915bca3a5852",
       "name": "Cek Extra Time (Anti-Snipe)",
@@ -8540,6 +8060,633 @@
         9952
       ],
       "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $json.text_upper;\nlet m = text.match(/^CANCEL BID\\s+([0-9]+)$/);\nif (!m) m = text.match(/^([0-9]+)\\s+CANCEL BID$/);\nreturn { nomor_hp: m ? m[1] : null, chat_id: $json.chat_id };"
+      },
+      "id": "cb01",
+      "name": "Parser Cancel Bid",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3440,
+        8200
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
+          "mode": "list",
+          "cachedResultName": "DATABASE LELANG",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 740556684,
+          "mode": "list",
+          "cachedResultName": "Pengaturan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=740556684"
+        },
+        "options": {}
+      },
+      "id": "cb02",
+      "name": "Baca Pengaturan (Cancel Bid)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        3680,
+        8200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IVDIwvjA1JT24Cpa",
+          "name": "KLIEN LELANG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map(i => i.json);\nconst aktif = rows.find(r => String(r['Status Lelang']).trim() === 'Berjalan');\nif (aktif) return [{ json: { ada_sesi_aktif: true, ...aktif }, pairedItem: 0 }];\nreturn [{ json: { ada_sesi_aktif: false, 'Status Lelang': 'Tidak Ada', 'Session ID': null, 'Hari Ke': null, 'Admin IDs': '', 'Grup WA Target': null }, pairedItem: 0 }];"
+      },
+      "id": "cb03",
+      "name": "Pilih Sesi Aktif (Cancel Bid)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3920,
+        8200
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cb04-c",
+              "leftValue": "={{ $json.ada_sesi_aktif }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "cb04",
+      "name": "IF Ada Sesi Aktif? (Cancel Bid)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        4160,
+        8200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.notif.my.id/api/v2/send-message",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('WA Config').first().json.apikey }}"
+            },
+            {
+              "name": "mtype",
+              "value": "text"
+            },
+            {
+              "name": "receiver",
+              "value": "={{ $('Normalize Pesan').first().json.chat_id }}"
+            },
+            {
+              "name": "answering",
+              "value": "yes"
+            },
+            {
+              "name": "id",
+              "value": "={{ $('Normalize Pesan').first().json.message_id }}"
+            },
+            {
+              "name": "participant",
+              "value": "={{ $('Normalize Pesan').first().json.is_group ? ($('Normalize Pesan').first().json.sender_id + '@s.whatsapp.net') : '' }}"
+            },
+            {
+              "name": "text",
+              "value": "=⚠️ Tidak ada lelang yang sedang berjalan saat ini, jadi tidak ada yang bisa dibatalkan."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cb05",
+      "name": "Tolak Tidak Ada Sesi (Cancel Bid)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4400,
+        8320
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cb06-c",
+              "leftValue": "={{ String($json['Admin IDs'] || '').split(',').map(s => s.trim()).includes(String($('Normalize Pesan').first().json.sender_id)) }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "cb06",
+      "name": "Cek Admin (Cancel Bid)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        4400,
+        8200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.notif.my.id/api/v2/send-message",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('WA Config').first().json.apikey }}"
+            },
+            {
+              "name": "mtype",
+              "value": "text"
+            },
+            {
+              "name": "receiver",
+              "value": "={{ $('Normalize Pesan').first().json.chat_id }}"
+            },
+            {
+              "name": "answering",
+              "value": "yes"
+            },
+            {
+              "name": "id",
+              "value": "={{ $('Normalize Pesan').first().json.message_id }}"
+            },
+            {
+              "name": "participant",
+              "value": "={{ $('Normalize Pesan').first().json.is_group ? ($('Normalize Pesan').first().json.sender_id + '@s.whatsapp.net') : '' }}"
+            },
+            {
+              "name": "text",
+              "value": "=⚠️ Command ini khusus admin."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cb07",
+      "name": "Tolak Bukan Admin (Cancel Bid)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4640,
+        8320
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
+          "mode": "list",
+          "cachedResultName": "DATABASE LELANG",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 144704620,
+          "mode": "list",
+          "cachedResultName": "Log Bid",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=144704620"
+        },
+        "options": {}
+      },
+      "id": "cb08",
+      "name": "Baca Log Bid (Cancel Bid)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        4640,
+        8200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IVDIwvjA1JT24Cpa",
+          "name": "KLIEN LELANG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const nomorHp = $('Parser Cancel Bid').first().json.nomor_hp;\nconst allLogs = $input.all().map(i => i.json);\n\nconst userLogs = allLogs.filter(r =>\n  String(r['penawar_id']) === String(nomorHp) &&\n  (r['status_bid_db'] === 'Sah' || r['status_bid_db'] === 'Sah (BIN)'));\nuserLogs.sort((a, b) => new Date(b['timestamp']) - new Date(a['timestamp']));\n\nconst target = userLogs[0] || null;\nif (!target) {\n  return [{ json: { error: true, pesan: `Tidak ditemukan riwayat tawaran sah dari nomor ${nomorHp}.` } }];\n}\n\nconst kode = target['kode_produk'];\nconst riwayatTeks = userLogs\n  .map(l => `- Produk ${l['kode_produk']}: ${parseInt(l['nominal_akhir']) || 0}K (${l['timestamp']})`)\n  .join('\\n');\n\n// Cari tawaran sah sebelumnya untuk produk yang sama, buat di-rollback ke situ\nconst produkLogs = allLogs.filter(r =>\n  String(r['kode_produk']) === String(kode) &&\n  (r['status_bid_db'] === 'Sah' || r['status_bid_db'] === 'Sah (BIN)'));\nprodukLogs.sort((a, b) => new Date(b['timestamp']) - new Date(a['timestamp']));\n\nconst rollbackTarget = produkLogs[1] || null;\n\nreturn [{ json: {\n  error: false,\n  nomor_hp: nomorHp,\n  kode_produk: kode,\n  riwayat_teks: riwayatTeks,\n  harga_rollback: rollbackTarget ? parseInt(rollbackTarget['nominal_akhir']) : null,\n  penawar_rollback_id: rollbackTarget ? rollbackTarget['penawar_id'] : '',\n  ada_rollback: !!rollbackTarget\n} }];"
+      },
+      "id": "cb09",
+      "name": "Cari Bid User (Cancel Bid)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4880,
+        8200
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cb10-c",
+              "leftValue": "={{ $json.error }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "cb10",
+      "name": "Ada Error Cancel Bid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        5120,
+        8200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.notif.my.id/api/v2/send-message",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('WA Config').first().json.apikey }}"
+            },
+            {
+              "name": "mtype",
+              "value": "text"
+            },
+            {
+              "name": "receiver",
+              "value": "={{ $('Normalize Pesan').first().json.chat_id }}"
+            },
+            {
+              "name": "answering",
+              "value": "yes"
+            },
+            {
+              "name": "id",
+              "value": "={{ $('Normalize Pesan').first().json.message_id }}"
+            },
+            {
+              "name": "participant",
+              "value": "={{ $('Normalize Pesan').first().json.is_group ? ($('Normalize Pesan').first().json.sender_id + '@s.whatsapp.net') : '' }}"
+            },
+            {
+              "name": "text",
+              "value": "=⚠️ {{ $json.pesan }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cb11",
+      "name": "Kirim Error Cancel Bid",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        5360,
+        8320
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
+          "mode": "list",
+          "cachedResultName": "DATABASE LELANG",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Produk",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=gid=0"
+        },
+        "options": {}
+      },
+      "id": "cb12",
+      "name": "Baca Produk (Cancel Bid)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        5360,
+        8200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IVDIwvjA1JT24Cpa",
+          "name": "KLIEN LELANG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('Cari Bid User (Cancel Bid)').first().json;\nconst produkAll = $input.all().map(i => i.json);\nconst produk = produkAll.find(p => String(p['Kode Produk']) === String(data.kode_produk));\n\nif (!produk) {\n  return [{ json: { error: true, pesan: `Produk ${data.kode_produk} tidak ditemukan.` } }];\n}\n\nconst hargaSebelumBatal = parseInt(produk['Harga Tertinggi Saat Ini']) || 0;\nconst hargaBaru = data.ada_rollback ? data.harga_rollback : (parseInt(produk['Harga Awal (OB)']) || 0);\nconst penawarBaru = data.ada_rollback ? data.penawar_rollback_id : '';\nconst jumlahBaru = Math.max((parseInt(produk['Jumlah Bid Masuk']) || 1) - 1, 0);\n\nreturn [{ json: {\n  error: false,\n  kode_produk: data.kode_produk,\n  harga_baru: hargaBaru,\n  penawar_baru: penawarBaru,\n  jumlah_baru: jumlahBaru,\n  harga_sebelum_batal: hargaSebelumBatal,\n  nomor_hp: data.nomor_hp,\n  riwayat_teks: data.riwayat_teks\n} }];"
+      },
+      "id": "cb13",
+      "name": "Siapkan Update Cancel Bid",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5600,
+        8200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
+          "mode": "list",
+          "cachedResultName": "DATABASE LELANG",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Produk",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Kode Produk": "={{ $json.kode_produk }}",
+            "Harga Tertinggi Saat Ini": "={{ $json.harga_baru }}",
+            "Penawar Tertinggi (No WA)": "={{ $json.penawar_baru }}",
+            "Penawar Tertinggi (Nama)": "={{ $json.penawar_baru ? $json.penawar_baru : '' }}",
+            "Jumlah Bid Masuk": "={{ $json.jumlah_baru }}"
+          },
+          "matchingColumns": [
+            "Kode Produk"
+          ],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "cb14",
+      "name": "Update Produk Cancel Bid",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        5840,
+        8200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IVDIwvjA1JT24Cpa",
+          "name": "KLIEN LELANG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
+          "mode": "list",
+          "cachedResultName": "DATABASE LELANG",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 144704620,
+          "mode": "list",
+          "cachedResultName": "Log Bid",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=144704620"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "kode_produk": "={{ $('Siapkan Update Cancel Bid').item.json.kode_produk }}",
+            "keyword_asli": "={{ $('Normalize Pesan').first().json.text_original }}",
+            "penawar_id": "={{ $('Normalize Pesan').first().json.sender_id }}",
+            "penawar_nama": "={{ $('Normalize Pesan').first().json.sender_name }}",
+            "chat_id": "={{ $('Normalize Pesan').first().json.chat_id }}",
+            "nominal_akhir": "={{ $('Siapkan Update Cancel Bid').item.json.harga_baru }}",
+            "status_bid_db": "Dibatalkan Admin (Cancel Bid)",
+            "harga_sebelumnya": "={{ $('Siapkan Update Cancel Bid').item.json.harga_sebelum_batal }}",
+            "hari_ke": "={{ $('Pilih Sesi Aktif (Cancel Bid)').first().json['Hari Ke'] }}",
+            "timestamp": "={{ $now.toFormat('yyyy-MM-dd HH:mm:ss') }}"
+          },
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "cb15",
+      "name": "Catat Log Cancel Bid Admin",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        6080,
+        8200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IVDIwvjA1JT24Cpa",
+          "name": "KLIEN LELANG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.notif.my.id/api/v2/send-message",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('WA Config').first().json.apikey }}"
+            },
+            {
+              "name": "mtype",
+              "value": "text"
+            },
+            {
+              "name": "receiver",
+              "value": "={{ $('Normalize Pesan').first().json.chat_id }}"
+            },
+            {
+              "name": "answering",
+              "value": "yes"
+            },
+            {
+              "name": "id",
+              "value": "={{ $('Normalize Pesan').first().json.message_id }}"
+            },
+            {
+              "name": "participant",
+              "value": "={{ $('Normalize Pesan').first().json.is_group ? ($('Normalize Pesan').first().json.sender_id + '@s.whatsapp.net') : '' }}"
+            },
+            {
+              "name": "text",
+              "value": "=🗑️ *CANCEL BID* untuk nomor {{ $('Siapkan Update Cancel Bid').item.json.nomor_hp }}\\n\\nRiwayat tawaran sah nomor ini:\\n{{ $('Siapkan Update Cancel Bid').item.json.riwayat_teks }}\\n\\nTawaran terakhir pada Produk {{ $('Siapkan Update Cancel Bid').item.json.kode_produk }} dibatalkan. Harga produk itu kembali ke {{ $('Siapkan Update Cancel Bid').item.json.harga_baru }}K."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cb16",
+      "name": "Broadcast Cancel Bid",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6320,
+        8200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.notif.my.id/api/v2/send-message",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $('WA Config').first().json.apikey }}"
+            },
+            {
+              "name": "mtype",
+              "value": "video"
+            },
+            {
+              "name": "receiver",
+              "value": "={{ $json.chat_id }}"
+            },
+            {
+              "name": "url",
+              "value": "={{ $json.link }}"
+            },
+            {
+              "name": "answering",
+              "value": "yes"
+            },
+            {
+              "name": "id",
+              "value": "={{ $('Normalize Pesan').first().json.message_id }}"
+            },
+            {
+              "name": "participant",
+              "value": "={{ $('Normalize Pesan').first().json.is_group ? ($('Normalize Pesan').first().json.sender_id + '@s.whatsapp.net') : '' }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.caption }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "kirim-video-01",
+      "name": "Kirim Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3248,
+        6928
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY",
+          "mode": "list",
+          "cachedResultName": "DATABASE LELANG",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 740556684,
+          "mode": "list",
+          "cachedResultName": "Pengaturan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHB9jt8pxao1hJbWrxoQy7sxD6p0odkhBbohy_jgiyY/edit#gid=740556684"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        8984
+      ],
+      "id": "sync-akhir-reread-01",
+      "name": "Baca Ulang Pengaturan (Sinkron Akhir)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IVDIwvjA1JT24Cpa",
+          "name": "KLIEN LELANG"
+        }
+      }
     }
   ],
   "pinData": {
@@ -8601,20 +8748,6 @@
         ],
         [
           {
-            "node": "Baca Pengaturan (Tutup Paksa)",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Parser Tambah Waktu",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
             "node": "Cek Status di G-Sheets1",
             "type": "main",
             "index": 0
@@ -8644,6 +8777,13 @@
         [
           {
             "node": "Parser Bid",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Parser Cancel Bid",
             "type": "main",
             "index": 0
           }
@@ -8872,97 +9012,6 @@
         ]
       ]
     },
-    "Baca Pengaturan (Tutup Paksa)": {
-      "main": [
-        [
-          {
-            "node": "Pilih Sesi Aktif (Tutup Paksa)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Cek Admin (Tutup Paksa)": {
-      "main": [
-        [
-          {
-            "node": "Update Pengaturan Set Ditutup",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Tolak Bukan Admin (Tutup Paksa)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Parser Tambah Waktu": {
-      "main": [
-        [
-          {
-            "node": "Baca Pengaturan (Tambah Waktu)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Baca Pengaturan (Tambah Waktu)": {
-      "main": [
-        [
-          {
-            "node": "Pilih Sesi Aktif (Tambah Waktu)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Cek Admin (Tambah Waktu)": {
-      "main": [
-        [
-          {
-            "node": "Hitung Waktu Baru",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Tolak Bukan Admin (Tambah Waktu)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Hitung Waktu Baru": {
-      "main": [
-        [
-          {
-            "node": "Update Pengaturan Tambah Waktu",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update Pengaturan Tambah Waktu": {
-      "main": [
-        [
-          {
-            "node": "Broadcast Tambah Waktu",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Update Pengaturan Set Ditutup": {
       "main": [
         [
@@ -9019,64 +9068,6 @@
         [
           {
             "node": "Tolak Tidak Ada Sesi (Batalkan)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Pilih Sesi Aktif (Tutup Paksa)": {
-      "main": [
-        [
-          {
-            "node": "IF Ada Sesi Aktif? (Tutup Paksa)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "IF Ada Sesi Aktif? (Tutup Paksa)": {
-      "main": [
-        [
-          {
-            "node": "Cek Admin (Tutup Paksa)",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Tolak Tidak Ada Sesi (Tutup Paksa)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Pilih Sesi Aktif (Tambah Waktu)": {
-      "main": [
-        [
-          {
-            "node": "IF Ada Sesi Aktif? (Tambah Waktu)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "IF Ada Sesi Aktif? (Tambah Waktu)": {
-      "main": [
-        [
-          {
-            "node": "Cek Admin (Tambah Waktu)",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Tolak Tidak Ada Sesi (Tambah Waktu)",
             "type": "main",
             "index": 0
           }
@@ -10072,6 +10063,13 @@
         ],
         [
           {
+            "node": "Kirim Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
             "node": "Kirim Teks Media (Video/Kosong)2",
             "type": "main",
             "index": 0
@@ -10336,7 +10334,7 @@
       "main": [
         [
           {
-            "node": "Hitung Sisa Sinkron (Selesai)",
+            "node": "Baca Ulang Pengaturan (Sinkron Akhir)",
             "type": "main",
             "index": 0
           }
@@ -10579,6 +10577,170 @@
         [
           {
             "node": "Baca Tracking Anggota Grup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parser Cancel Bid": {
+      "main": [
+        [
+          {
+            "node": "Baca Pengaturan (Cancel Bid)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baca Pengaturan (Cancel Bid)": {
+      "main": [
+        [
+          {
+            "node": "Pilih Sesi Aktif (Cancel Bid)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pilih Sesi Aktif (Cancel Bid)": {
+      "main": [
+        [
+          {
+            "node": "IF Ada Sesi Aktif? (Cancel Bid)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF Ada Sesi Aktif? (Cancel Bid)": {
+      "main": [
+        [
+          {
+            "node": "Cek Admin (Cancel Bid)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tolak Tidak Ada Sesi (Cancel Bid)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cek Admin (Cancel Bid)": {
+      "main": [
+        [
+          {
+            "node": "Baca Log Bid (Cancel Bid)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tolak Bukan Admin (Cancel Bid)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baca Log Bid (Cancel Bid)": {
+      "main": [
+        [
+          {
+            "node": "Cari Bid User (Cancel Bid)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cari Bid User (Cancel Bid)": {
+      "main": [
+        [
+          {
+            "node": "Ada Error Cancel Bid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ada Error Cancel Bid?": {
+      "main": [
+        [
+          {
+            "node": "Kirim Error Cancel Bid",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Baca Produk (Cancel Bid)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baca Produk (Cancel Bid)": {
+      "main": [
+        [
+          {
+            "node": "Siapkan Update Cancel Bid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Siapkan Update Cancel Bid": {
+      "main": [
+        [
+          {
+            "node": "Update Produk Cancel Bid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Produk Cancel Bid": {
+      "main": [
+        [
+          {
+            "node": "Catat Log Cancel Bid Admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Catat Log Cancel Bid Admin": {
+      "main": [
+        [
+          {
+            "node": "Broadcast Cancel Bid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baca Ulang Pengaturan (Sinkron Akhir)": {
+      "main": [
+        [
+          {
+            "node": "Hitung Sisa Sinkron (Selesai)",
             "type": "main",
             "index": 0
           }
